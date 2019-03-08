@@ -20,11 +20,12 @@ app.get('/pacientes', verificaToken, function (req, res) {
   let usuario = req.usuario;
 
   let query = {};
-  if (usuario.rol==='ADMIN_ROL'||usuario.rol==='ENFERMERIA_ROL') {
-    query = { 'situacionSe': { $eq: 1 }};
+  if (usuario.rol === 'ADMIN_ROL' || usuario.rol === 'ENFERMERIA_ROL') {
+    query = { 'situacionSe': { $eq: 1 } };
   }
   else {
-    query = { 'situacionSe': { $eq: 1 }, medicos: [usuarioId] };
+    query = {
+      'situacionSe': { $eq: 1 }, medicos: {$all: [usuarioId]} };
   }
 
   Paciente.find(query)
@@ -39,7 +40,7 @@ app.get('/pacientes', verificaToken, function (req, res) {
         return res.status(400).
           json({ ok: false, error: err });
       };
-      Paciente.countDocuments({ 'situacionSe': { $eq: 1 }, medicos: [usuarioId] }, (err, conteo) => {
+      Paciente.countDocuments(query, (err, conteo) => {
         if (err) {
           return res.status(400).
             json({ ok: false, error: err });
@@ -63,8 +64,10 @@ app.get('/paciente/:id', function (req, res) {
     if (!pacienteBD) {
       return res.status(401).json({ ok: false, mensaje: 'No existe este paciente' });
     }
+    //pacienteBD.populate('medicos', 'nombre');
+    console.log('pacienteBD-->', pacienteBD);
     return res.json({ ok: true, paciente: pacienteBD });
-  });
+  }).populate('medicos', 'nombre cedula especialidad');
 });
 
 app.post('/paciente', [verificaToken, verificaAdminRol], function (req, res) {
@@ -191,7 +194,7 @@ app.put('/paciente/:id', [verificaToken, rolADE], function (req, res) {
     'colonia', 'municipio',
     'entidad', 'pais', 'telefonos', 'CP',
     'nombreMT', 'cedulaMT', 'institucionMT',
-    'usuarioSe'
+    'usuarioSe', 'medicos'
   ]);
 
   //console.log('body: ', body);
@@ -237,6 +240,51 @@ app.delete('/paciente/:id', [verificaToken, verificaAdminRol], function (req, re
   });
 
 });
+
+//app.put('/paciente/AgregaMedico/:id', [verificaToken, rolADE], function (req, res) {
+
+//  let body = _.pick(req.body, [
+//    'medicoId'
+//  ]);
+//  let id = req.params.id;
+//  body.fechaModificacion = Date.now();
+
+//  Paciente.findOne({ _id: id, 'situacionSe': { $eq: 1 } }, body, { new: true, runValidators: true, context: 'query' }, (err, pacienteBD) => {
+//    if (err) {
+//      return res.status(400).
+//        json({ ok: false, mensaje: err });
+//    };
+//    if (!pacienteBD) {
+//      return res.status(401).
+//        json({ ok: false, mensaje: 'No existe paciente.' });
+//    };
+
+//    /// si existe paciente
+//    // verifica que no exista en medicos
+//    if (pacienteBD.medicos.indexOf(medicoId) === -1) {
+//      pacienteBD.medicos.push(medicoId);
+//      // actualiza
+//      Paciente.findOneAndUpdate({ _id: id, 'situacionSe': { $eq: 1 } }, pacienteBD, { new: true, runValidators: true, context: 'query' }, (err, pacienteBD) => {
+//        if (err) {
+//          return res.status(400).
+//            json({ ok: false, error: { mensaje: err } });
+//        }
+//        if (!pacienteBD) {
+//          return res.status(401).
+//            json({ ok: false, error: { mensaje: 'No existe paciente para actualizar.' } });
+//        }
+//        return res.status(200).json({ ok: true, paciente: pacienteBD });
+//      })
+//      // fin actualiza
+//    };
+//    ///
+//    return res.status(400).json({ ok: false, mensaje: 'Ya existe médico tratante.' });
+//  })
+
+
+
+
+//});
 
 
 module.exports = app;

@@ -10,46 +10,48 @@
     <!--<div class="row">-->
       <!--<div class="col-md-12">-->
 
-        <no-ssr>
+        <!--<no-ssr>-->
           <table   class="table table-sm  table-hover table-info ">
-            <tr>
-              <!--<td>ID</td>-->
-              <td style="width:20%">FECHA</td>
-              <td style="width:5%">HORA</td>
-              <td>
-                EVOLUCIÓN
-                <b-btn class="bg-success" v-on:click="agregar">+</b-btn>
-              </td>
-              <td>
-                <b-btn class="bg-success" v-on:click="imprimir">IMPRIMIR</b-btn>
-              </td>
-            </tr>
-            <tr :class="{'bg-warning':e._id===$store.state.evolucionId}"
-                v-model="evoluciones"
-                v-for="e in evoluciones">
-              <!--<td>{{e._id}}--{{$store.state.evolucionId}}</td>-->
-              <td>{{moment(e.fecha).format('DD-MMM-YYYY')}}</td>
-              <td>{{moment(e.fecha).format('HH:mm')}}</td>
-              <td>{{e.descripcion}}</td>
-
-              <td style="width:25px;">
-                <!--<b-btn btn-xs
+            <tbody>
+              <tr>
+                <!--<td>ID</td>-->
+                <td style="width:20%">FECHA</td>
+                <td style="width:5%">HORA</td>
+                <td>
+                  EVOLUCIÓN
+                  <b-btn class="bg-success" v-on:click="agregar">+</b-btn>
+                </td>
+                <td>
+                  MÉDICO
+                  <b-btn class="bg-success button-right" v-on:click="imprimir">IMPRIMIR</b-btn>
+                </td>
+              </tr>
+              <tr :class="{'bg-warning':e._id===$store.state.evolucionId}"
+                  v-model="evoluciones"
+                  v-for="e in evoluciones">
+                <!--<td>{{e._id}}--{{$store.state.evolucionId}}</td>-->
+                <td>{{moment(e.fecha).format('DD-MMM-YYYY')}}</td>
+                <td>{{moment(e.fecha).format('HH:mm')}}</td>
+                <td>{{e.descripcion}}</td>
+                <td>--{{e.usuarioSe.nombre}}--</td>
+                <td style="width:25px;">
+                  <!--<b-btn btn-xs
            v-on:click="imprimir(e._id)">
       Imp
        <img src="../assets/iconos/boton-seleccionar-documento.png" style="width: 25px;">
     </b-btn>-->
-                <!--</td>
+                  <!--</td>
     <td style="width:25px;">-->
-                <b-btn btn-xs
-                       v-on:click="seleccionar(e._id)">
-                  Sel
-                  <!-- <img src="../assets/iconos/boton-seleccionar-documento.png" style="width: 25px;">-->
-                </b-btn>
-              </td>
-
-            </tr>
+                  <b-btn btn-xs
+                         v-on:click="seleccionar(e._id)">
+                    Sel
+                    <!-- <img src="../assets/iconos/boton-seleccionar-documento.png" style="width: 25px;">-->
+                  </b-btn>
+                </td>
+              </tr>
+            </tbody>
           </table>
-        </no-ssr>
+        <!--</no-ssr>-->
 
 
 

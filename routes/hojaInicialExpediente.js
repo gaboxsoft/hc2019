@@ -5,7 +5,7 @@ const app = express();
 
 const _ = require('underscore');
 
-let { verificaToken, verificaAdminRol } = require('../middleware/autenticacion');
+let { verificaToken, verificaAdminRol, rolADE } = require('../middleware/autenticacion');
 
 //app.get('/pacientes', verificaToken, function(req, res) {
 
@@ -69,7 +69,7 @@ let { verificaToken, verificaAdminRol } = require('../middleware/autenticacion')
 //    });
 //});
           
-app.put('/HojaInicialExpediente/:id', [verificaToken, verificaAdminRol], function (req, res) {
+app.put('/HojaInicialExpediente/:id', [verificaToken, rolADE], function (req, res) {
  
   console.log('--  HojaInicialExpediente --');
   let body = req.body;

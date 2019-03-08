@@ -6,7 +6,7 @@ const app = express();
 const _ = require('underscore');
 
 
-let { verificaToken, verificaAdminRol } = require('../middleware/autenticacion');
+let { verificaToken, verificaAdminRol, rolADE } = require('../middleware/autenticacion');
 
 
  
@@ -65,7 +65,7 @@ app.get('/notasUrgencias/:id', verificaToken, function (req, res) {
 });
 //////////////////////////////////////////////////
 
-app.post('/notaUrgencias/:id', [verificaToken, verificaAdminRol], function (req, res) {
+app.post('/notaUrgencias/:id', [verificaToken, rolADE], function (req, res) {
 
   let id = req.params.id;
   let body = req.body;
@@ -97,7 +97,7 @@ app.post('/notaUrgencias/:id', [verificaToken, verificaAdminRol], function (req,
     });
 });
           
-app.put('/NotaUrgencias/:id', [verificaToken, verificaAdminRol], function (req, res) {
+app.put('/NotaUrgencias/:id', [verificaToken, rolADE], function (req, res) {
  
   console.log('--  Nota Urgencias --');
   let body = req.body;

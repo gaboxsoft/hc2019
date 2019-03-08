@@ -130,7 +130,7 @@
         this.$store.commit('setToken', 'NONE');
         this.$store.commit('setPacienteId', 'NONE');
         this.$store.commit('setUsuarioId', 'NONE');
-        this.$store.commit('setRol', 'NONE');
+        this.$store.commit('setUsuario', {});
         this.token = 'NONE';
         this.usuarioLogin = usuarioVacio;
         alert('Sesión cerrrada!');

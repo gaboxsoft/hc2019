@@ -2,12 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\components",
+    "\\library",
+    "\\library\\msiReportes",
     "\\middleware",
     "\\models",
+    "\\pages",
     "\\routes",
     "\\server",
     "\\store"
   ],
-  "SelectedNode": "\\routes\\paciente.js",
+  "SelectedNode": "\\middleware\\autenticacion.js",
   "PreviewInSolutionExplorer": false
 }
