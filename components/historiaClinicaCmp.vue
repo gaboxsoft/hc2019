@@ -376,7 +376,7 @@
             abdomen: this.paciente.abdomen,
             mamas: this.paciente.mamas,
             tactoVaginal: this.paciente.tactoVaginal,
-            tactoRectal: this.paciente.tactoVaginal,
+            tactoRectal: this.paciente.tactoRectal,
             miembros: this.paciente.miembros,
             ID: this.paciente.ID,
             TX: this.paciente.TX,

@@ -57,7 +57,7 @@ const historiaClinicaPdf = (paciente) => {
   //  writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color);
   //});
     pages[0].forEach(function (field) {
-      writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color);
+      writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color, field.width);
     });
  
 
@@ -72,7 +72,7 @@ const historiaClinicaPdf = (paciente) => {
   });
   
   pages[1].forEach(function (field) {
-    writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color);
+    writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color, field.width);
   });
 
 
@@ -97,7 +97,7 @@ const historiaClinicaPdf = (paciente) => {
 }
 
 
-function writeLine(doc, text, row, col, align, fontSize, color) {
+function writeLine(doc, text, row, col, align, fontSize, color, width) {
   const vacio = '';
   //console.log('in writeLine-> text: [', text, '] typeOf', typeof (text));
   //console.log('in writeLine-> align: [', align, '] typeOf', typeof (align));
@@ -110,6 +110,7 @@ doc.moveDown()
   .fontSize(fontSize || 10)  
   .text(text||vacio, pdfTools.cmToPt(col||1), pdfTools.cmToPt(row||1), {
     align: align||'left',
+    width: pdfTools.cmToPt(width),
     //indent: 2,
     ellipsis: true
   });
