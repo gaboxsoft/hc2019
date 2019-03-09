@@ -30,8 +30,8 @@
                   v-model="evoluciones"
                   v-for="e in evoluciones">
                 <!--<td>{{e._id}}--{{$store.state.evolucionId}}</td>-->
-                <td>{{moment(e.fecha).format('DD-MMM-YYYY')}}</td>
-                <td>{{moment(e.fecha).format('HH:mm')}}</td>
+                <td>{{momento(e.fecha).format('DD-MMM-YYYY')}}</td>
+                <td>{{momento(e.fecha).format('HH:mm')}}</td>
                 <td>{{e.descripcion}}</td>
                 <td>--{{e.usuarioSe.nombre}}--</td>
                 <td style="width:25px;">
@@ -125,7 +125,7 @@
     },
 
     methods: {
-        moment: function (date) {
+      momento: function (date) {
           return moment(date);
       },
       agregar: function () {

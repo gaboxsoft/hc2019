@@ -146,8 +146,29 @@ app.get('/msi14/:id', function (req, res) {
         json({ ok: false, error: '2.- Error al generar reporte MSI-14: No existe paciente ' });
     };
 
-    Evolucion.find({ 'situacionSe': { $eq: 1 }, 'paciente': { $eq: id } })      
-      .sort({ fecha: 'desc' })
+    ////////Obtiene la nota de urgencias mas actual
+
+    //////NotaUrgencias.find({}, (err, notasUrgenciasBD) => {
+    //////  if (err) {
+    //////    return res.status(400).
+    //////      json({ ok: false, error: '3.- Error al generar reporte MSI-12: ', err });
+    //////  };
+    //////  if (!notasUrgenciasBD) {
+    //////    return res.status(400).
+    //////      json({ ok: false, error: '4.- Error al generar reporte MSI-12: No existe Nota Urgencias ' });
+    //////  };
+    //////  //console.log(`0.-voy a ir a crear hoja exp: `);
+    //////  let filePath = notaUrgenciasPdf(pacienteBD, notaUrgenciasBD);
+    //////  //console.log('path=', path.dirname(filePath), "name=", path.basename(filePath))
+    //////  //return res.download(path.dirname(filePath), path.basename(filePath));
+
+    //////  return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-11', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
+    //////});
+
+    ////////
+    Evolucion.find({ 'situacionSe': { $eq: 1 }, 'paciente': { $eq: id } })
+      .populate('usuarioSe','nombre cedula especialidad institucion')
+      .sort({ fecha: 'asc' })
       .exec((err, evolucionesBD) => {
         if (err) {
           return res.status(400).
@@ -157,19 +178,17 @@ app.get('/msi14/:id', function (req, res) {
           return res.json({ ok: true, conteo: 0, evoluciones: {}, mensaje: 'No hay hoja de evolución.' });
         };
 
+        
+          let filePath = hojaEvolucionPdf(pacienteBD, evolucionesBD);
+          //console.log('path=', path.dirname(filePath), "name=", path.basename(filePath))
+          //return res.download(path.dirname(filePath), path.basename(filePath));
 
-        let filePath = hojaEvolucionPdf(pacienteBD, evolucionesBD);
-        //console.log('path=', path.dirname(filePath), "name=", path.basename(filePath))
-        //return res.download(path.dirname(filePath), path.basename(filePath));
-
-        return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-11', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
+          return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-11', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
+        
 
       });
 
-
-
-
-  });
+  }).populate('medicos','nombre cedula especialidad institucion');
 
   //return res.status(200).json({ ok: false, mensaje: 'Falló al buscar el Paciente.' });
 });

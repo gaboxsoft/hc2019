@@ -8,7 +8,7 @@ const moment = require('moment');
 require('moment/locale/es');  // without this line it didn't work
 moment.locale('es')
 
-const hojaEvolucionPdf = (paciente, evoluciones) => {
+const hojaEvolucionPdf = (paciente, evoluciones, notaUrgencias) => {
   const hojaCartaPort = [612, 792];
   const hojaCartaLan = [792, 612];
 
@@ -39,8 +39,8 @@ const hojaEvolucionPdf = (paciente, evoluciones) => {
   const sizePaperLetter = '210.02x297.01';
   const centroMedico = 'Médica San Isidro';
 
-  console.log('paciente: ', paciente.nombre);
-  console.log('evoluciones: ',evoluciones);
+  console.log('paciente: ', paciente);
+  //console.log('evoluciones: ',evoluciones);
 
   let imgFormato = path.resolve(__dirname, '../../msiformatos/msi14.jpg');
 
@@ -75,9 +75,9 @@ const hojaEvolucionPdf = (paciente, evoluciones) => {
   row = 7.4;
   rowIni = row;
   colIni = col;
-  console.log('=============================================')
-  console.log(doc);
-  console.log('=============================================')
+  //console.log('=============================================')
+  //console.log(doc);
+  //console.log('=============================================')
   let n = 0;
   writeEvolucion(doc, paciente, evoluciones, pages, anchoHoja, altoHoja, n++, imgFormato, rowIni, colIni);
 
@@ -103,7 +103,9 @@ function writeEvolucion(doc, paciente, evoluciones, pages, anchoHoja, altoHoja, 
   interlineado = 5;
 
   evoluciones.forEach(function (e) {
-    let text = e.descripcion + '\n'+'Médico: ' + paciente.nombreMT + ' cédula: ' + paciente.cedulaMT;
+    //console.log('evolución:', e);
+    //let text = e.descripcion + '\n' + 'Médico: ' + paciente.nombreMT + ' cédula: ' + paciente.cedulaMT;
+    let text = e.descripcion + '\n' + 'Médico: ' + e.usuarioSe.nombre + ' cédula: ' + e.usuarioSe.cedula;
 
     opcionesParrafo = {
       align: 'justify',
@@ -112,8 +114,6 @@ function writeEvolucion(doc, paciente, evoluciones, pages, anchoHoja, altoHoja, 
       ellipsis: true
     };
     altoParrafo = doc.heightOfString(text, opcionesParrafo);
-
-    
 
     //console.log(`==== INICIA  ${n} =======`);
     //console.log(`${n} =>[${e.descripcion}]=`);
@@ -163,13 +163,13 @@ function writeEvolucion(doc, paciente, evoluciones, pages, anchoHoja, altoHoja, 
     writeLine(doc, moment(e.fecha).format('YYYY-MM-DD HH:mm'), row, col, 'left', 8, 'black');
     writeLine(doc, text, row, col + 3.7, 'justify', 8, 'black', 14.8);
     //writeLine(doc, 'Médico: '+paciente.nombreMT+' cédula: '+ paciente.cedulaMT, doc.y, col + 3.7, 'justify', 8, 'black', 14.8);
-      console.log(`${n}=>2 doc.y=`, doc.y);
+      //console.log(`${n}=>2 doc.y=`, doc.y);
       row = pdfTools.ptToCm(doc.y + interlineado);
-    console.log(`${n}=>3 row now=`, row);
+    //console.log(`${n}=>3 row now=`, row);
 
 
     // si el próximo párrafo no cabe en la hoja.. agrega otra hoja
-    console.log(`==== FIN  ${n} =======`)
+    //console.log(`==== FIN  ${n} =======`)
   });
 
 
