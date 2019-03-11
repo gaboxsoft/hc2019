@@ -1,6 +1,6 @@
 git status
 git add .
-git commit -m "v2.0.42 - ajuste formato msi-14"
+git commit -m "v2.0.43 - presentacion3 fausto"
 git push origin master
 git push heroku master
 
