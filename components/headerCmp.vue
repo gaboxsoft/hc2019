@@ -13,9 +13,7 @@
       <b-collapse is-nav
                   id="nav_collapse">
         <b-navbar-nav>
-          <b-nav-item-dropdown v-show="rol==='ADMIN_ROL'" text="ADMIN" right>
-            <b-dropdown-item href="/UsuariosPage">Usuarios</b-dropdown-item>
-          </b-nav-item-dropdown>
+
 
           <b-nav-item-dropdown text="RECEPCIÓN"
                                right>
@@ -68,7 +66,12 @@
             <b-dropdown-item href="#">Por Traslado</b-dropdown-item>
             <b-dropdown-item href="#">Por Defunción</b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-nav-item-dropdown v-show="rol==='ADMIN_ROL'" text="ADMIN" right>
+            <b-dropdown-item href="/UsuariosPage">Usuarios</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
+        
+
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <template slot="button-content">

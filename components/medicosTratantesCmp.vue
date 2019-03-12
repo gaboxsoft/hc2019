@@ -52,11 +52,11 @@
         </tr>
         <!-- class="{'bg-warning':paciente._id===$store.state.pacienteId}" -->
         <tr v-model="paciente.medicos"
-            v-for="m in paciente.medicos">
+            v-for="(m, i) in paciente.medicos">
           <td style="width:200px;">{{m.nombre}}</td>
           <td>{{m.cedula}}</td>
           <td>{{m.especialidad}}</td>
-          <td v-show="paciente.medicos.length>1" style="width:25px;">
+          <td v-show="paciente.medicos.length>1&&i!=0" style="width:25px;">
               <b-btn class="bg-success" btn-xs
                      v-on:click="quitarMedico(m._id)">
                 -
@@ -122,16 +122,21 @@
     methods: {
       agregarMedico: function (medicoId) {
         let existe = false;
+        if (!medicoId) {
+          return this.$refs.notify.showNotify("SELECCIONA UN MÉDICO.", 1);
+
+        }
         for (var i = 0; i < this.paciente.medicos.length; i++) {
           if (this.paciente.medicos[i]._id === medicoId) {
             existe = true;
             break;
           };
         }
+
         if (!existe) {
           this.paciente.medicos.push(medicoId);
           this.guardarMedicos();
-          this.getPaciente();
+          //this.getPaciente();
         };
       },
       quitarMedico: function (medicoId) {
@@ -139,7 +144,7 @@
           if (this.paciente.medicos[i]._id === medicoId) {
             this.paciente.medicos.splice(i, 1);
             this.guardarMedicos();
-            this.getPaciente();
+            //this.getPaciente();
             break;
           };
         }
@@ -235,13 +240,16 @@
         };
         axios(req)
           .then((response) => {
-            //console.log('En guardar hie-- success---->>> pasé ', response.data);
+            console.log('En guardar hcMT-- success---->>> pasé ', response.data);
+            this.paciente = response.data.paciente;
+            console.log('En guardar hcMT-- success---->>> pasé ', this.paciente);
             this.$refs.notify.showNotify("LISTA DE MÉDICOS ACTUALIZADA.", 1);
             //this.$store.commit('setSocketDatosGenerales');
 
           })
           .catch(err => {
-            //console.log('ERROR  al guardar HIE-- fail---->>> pasé ', err.response);
+            console.log('ERROR  al guardar hcMT-- fail---->>> pasé ', err.response);
+            this.paciente = {};
             this.$refs.notify.showNotify("ERROR AL AGREGAR: " + err.response, 2.5);
           });
       },

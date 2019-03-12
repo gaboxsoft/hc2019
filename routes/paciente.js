@@ -177,7 +177,7 @@ app.post('/paciente', [verificaToken, verificaAdminRol], function (req, res) {
     if (err) {
       res.status(400).json({ ok: false, error: err, body: paciente });
     } else {
-      res.json({ pacienteBD: pacienteBD });
+      res.json({ paciente: pacienteBD });
     }
   });
 });
@@ -217,8 +217,8 @@ app.put('/paciente/:id', [verificaToken, rolADE], function (req, res) {
       return res.status(401).
         json({ ok: false, error: { mensaje: 'No existe paciente.' } });
     }
-    res.json({ ok: true, pacienteBD: pacienteBD });
-  })
+    res.json({ ok: true, paciente: pacienteBD });
+  }).populate('medicos', 'cedula nombre especialidad');
 
 });
 
