@@ -157,6 +157,7 @@ function writeEvolucion(doc, paciente, evoluciones, pages, anchoHoja, altoHoja, 
     // Escribe encabezados
     if (doc.y == 0) {
       pages[0].forEach(function (field) {
+        console.log('field.name:', field.name);
         writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color, field.width);
       });
     };

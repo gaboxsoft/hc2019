@@ -178,7 +178,7 @@ app.get('/msi14/:id', function (req, res) {
           return res.json({ ok: true, conteo: 0, evoluciones: {}, mensaje: 'No hay hoja de evolución.' });
         };
 
-        
+
           let filePath = hojaEvolucionPdf(pacienteBD, evolucionesBD);
           //console.log('path=', path.dirname(filePath), "name=", path.basename(filePath))
           //return res.download(path.dirname(filePath), path.basename(filePath));

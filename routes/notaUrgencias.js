@@ -93,7 +93,7 @@ app.post('/notaUrgencias/:id', [verificaToken, rolADE], function (req, res) {
     if (err) {
       res.status(400).json({ ok: false, error: err, body: body });
     } else {
-      Paciente.findById(id, { diagnosticoEgreso: body.diagnosticoEgreso }, (err, pacienteBD) => {
+      Paciente.findByIdAndUpdate(id, { diagnosticoEgreso: body.diagnosticoEgreso }, (err, pacienteBD) => {
         if (err) {
           console.log('error en guardar diagnóstico egresos', err)
         };
@@ -105,11 +105,6 @@ app.post('/notaUrgencias/:id', [verificaToken, rolADE], function (req, res) {
       
     }
   });
-
-
-
-
-
 });
 
 app.put('/NotaUrgencias/:id', [verificaToken, rolADE], function (req, res) {
