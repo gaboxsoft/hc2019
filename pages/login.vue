@@ -1,5 +1,5 @@
 <template>
-  <div class="contanier">
+  <div >
    <loginCmp />
   </div>
   </template>

@@ -78,7 +78,7 @@
               <em>Sesión</em>
             </template>
             <b-dropdown-item href="/login">Abrir</b-dropdown-item>
-            <b-dropdown-item href="#">Cerrar</b-dropdown-item>
+            <b-dropdown-item href="/logout">Cerrar</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -119,6 +119,17 @@
 
       created() {
         this.rol = this.getRol;
+      },
+      methods: {
+        logout() {
+          this.$store.commit('setToken', 'NONE');
+          this.$store.commit('setPacienteId', 'NONE');
+          this.$store.commit('setUsuarioId', 'NONE');
+          this.$store.commit('setUsuario', {});
+          this.token = 'NONE';
+          this.usuarioLogin = usuarioVacio;
+          alert('Sesión cerrrada!');
+        }
       }
     }
 </script>
