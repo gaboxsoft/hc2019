@@ -39,7 +39,7 @@ const notaUrgenciasPdf = (paciente, notaUrgencias) => {
   const sizePaperLetter = '210.02x297.01';
   const centroMedico = 'Médica San Isidro';
   //
-  //console.log('paciente: ', paciente);
+  console.log('\r\n\r\n\r\n paciente: ', paciente,'<<<<--------\r\n\r\n\r\n');
 
   let imgFormato = path.resolve(__dirname, '../../msiformatos/msi12.jpg');
 

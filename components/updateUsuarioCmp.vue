@@ -38,7 +38,7 @@
           </tr>
           <tr>
             <td>Institución:</td>
-            <td><input type="text" class="input-text" v-model="usuario.institución" name="institución"></td>
+            <td><input type="text" class="input-text" v-model="usuario.institucion" name="institucion"></td>
           </tr>
           <tr>
             <td>email:</td>

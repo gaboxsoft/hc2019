@@ -120,7 +120,7 @@ app.get('/msi12/:id', function (req, res) {
       });
     
 
-  });
+  }).populate('medicos', 'nombre cedula institucion especialidad');
 
   //return res.status(200).json({ ok: false, mensaje: 'Falló al buscar el Paciente.' });
 });
