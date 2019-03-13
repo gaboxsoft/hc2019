@@ -29,7 +29,7 @@
               <tr :class="{'bg-warning':e._id===$store.state.evolucionId}"
                   v-model="evoluciones"
                   v-for="e in evoluciones">
-                <!--<td>{{e._id}}--{{$store.state.evolucionId}}</td>-->
+                <!--<td>{{e._id}}</td>-->
                 <td>{{momento(e.fecha).format('DD-MMM-YYYY')}}</td>
                 <td>{{momento(e.fecha).format('HH:mm')}}</td>
                 <td>{{e.descripcion}}</td>
@@ -42,7 +42,7 @@
     </b-btn>-->
                   <!--</td>
     <td style="width:25px;">-->
-                  <b-btn btn-xs
+                  <b-btn btn-xs v-show="e.usuarioSe._id===$store.state.usuarioId"
                          v-on:click="seleccionar(e._id)">
                     Sel
                     <!-- <img src="../assets/iconos/boton-seleccionar-documento.png" style="width: 25px;">-->
@@ -216,7 +216,10 @@
 
 </script>
 
-<style scoped>
+
+
+
+<!--<style scoped>
   .main-container {
     /*min-height: 100vh;*/
     /*display: flex;*/
@@ -247,4 +250,6 @@
   .links {
     padding-top: 15px;
   }*/
-</style>
+</style>-->
+
+

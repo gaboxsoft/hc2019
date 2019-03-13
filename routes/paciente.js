@@ -65,7 +65,7 @@ app.get('/paciente/:id', function (req, res) {
       return res.status(401).json({ ok: false, mensaje: 'No existe este paciente' });
     }
     //pacienteBD.populate('medicos', 'nombre');
-    console.log('pacienteBD-->', pacienteBD);
+    //console.log('pacienteBD-->', pacienteBD);
     return res.json({ ok: true, paciente: pacienteBD });
   }).populate('medicos', 'nombre cedula especialidad');
 });

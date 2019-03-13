@@ -18,7 +18,7 @@ app.get('/Evoluciones/:id', verificaToken, function (req, res) {
   let id = req.params.id;
 
   Evolucion.find({ 'situacionSe': { $eq: 1 }, 'paciente': { $eq: id } })
-    .populate('usuarioSe','nombre cedula')
+    .populate('usuarioSe', 'nombre cedula')
     .limit(limite)
     .skip(desde)
     .sort({ fecha: 'desc' })
@@ -99,6 +99,7 @@ app.put('/Evolucion/:id', [verificaToken, rolD], function (req, res) {
   let body = req.body;
   console.log('body de API/Evolucion: ', req.body);
   console.log('paciente._id: ', `[${req.params.id}]`);
+  //console.log('notaEvolucion._id: ', `[${req.params.id}]`);
 
   // El id es de la nota de evolucion, no es necesario el pacienteId
   let id = req.params.id;
@@ -117,7 +118,7 @@ app.put('/Evolucion/:id', [verificaToken, rolD], function (req, res) {
   // Para modificar: El usuario de la sesión debe ser el mismo usuario que lo escribió
 
   //////////
-  Evolucion.findOne({ _id: id, 'situacionSe': { $eq: 1 }, usuarioSe: req.usuario._id }, body, (err, evolucionBD) => {
+  Evolucion.findOneAndUpdate({ _id: id, 'situacionSe': { $eq: 1 }, usuarioSe: req.usuario._id }, body, (err, evolucionBD) => {
     if (err) {
       return res.status(400).
         json({ ok: false, error: { mensaje: err } });
@@ -126,25 +127,27 @@ app.put('/Evolucion/:id', [verificaToken, rolD], function (req, res) {
       return res.status(401).
         json({ ok: false, error: { mensaje: 'No existe nota de Evolución.' } });
     }
-    // checa que sea el mismo usuario para poder modificar
-    if (usuarioBD.usuarioSe === req.usuario._id) {
-      Evolucion.findOneAndUpdate({ _id: id, 'situacionSe': { $eq: 1 }, usuarioSe: req.usuario._id }, body, { new: true, runValidators: true, context: 'query' }, (err, evolucionBD) => {
-        if (err) {
-          return res.status(400).
-            json({ ok: false, error: err  });
-        }
-        if (!evolucionBD) {
-          return res.status(401).
-            json({ ok: false, error: { mensaje: 'No existe nota de Evolución.' } });
-        }
-        return res.status(200).json({ ok: true, evolucion: evolucionBD });
-      });
-    }
-    else {
-      return res.status(401).
-        json({ ok: false, mensaje: 'No tienes permiso de modificar.' });
-    }
-  })
+    //// checa que sea el mismo usuario para poder modificar
+    //console.log('evolucionBD............->', evolucionBD);
+    //console.log('req.usuario._id........->', req.usuario._id);
+    //if (evolucionBD.usuarioSe === req.usuario._id) {
+    Evolucion.findOneAndUpdate({ _id: id, 'situacionSe': { $eq: 1 }, usuarioSe: req.usuario._id }, body, { new: true, runValidators: true, context: 'query' }, (err, evolucionBD) => {
+      if (err) {
+        return res.status(400).
+          json({ ok: false, error: err });
+      }
+      if (!evolucionBD) {
+        return res.status(401).
+          json({ ok: false, error: { mensaje: 'No existe nota de Evolución.' } });
+      }
+      return res.status(200).json({ ok: true, evolucion: evolucionBD });
+    });
+    //}
+    //else {
+    //  return res.status(401).
+    //    json({ ok: false, mensaje: 'No tienes permiso de modificar.' });
+    //}
+  });
 
 });
 

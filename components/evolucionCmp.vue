@@ -61,11 +61,11 @@
         //return 'http://localhost:3000/Evolucion/';
       },
       urlGetPaciente: function () {
-        return process.env.urlServer + 'Paciente' + this.$store.state.pacienteId;
+        return process.env.urlServer + '/Paciente/' + this.$store.state.pacienteId;
         //return 'http://localhost:3000/paciente/' + this.$store.state.pacienteId;
       },
       urlGetEvolucion: function () {
-        return process.env.urlServer + 'Evolucion' + this.$store.evolucionId;
+        return process.env.urlServer + '/Evolucion/' + this.$store.evolucionId;
         //return 'http://localhost:3000/Evolucion/' + this.$store.evolucionId;
       },
       urlHojaEvolucionPdf: function () {
@@ -162,18 +162,21 @@
       },
 
       getCurrentPaciente: function () {
-
+        //console.log('this.urlGetPaciente getcurrentPaciente._>', this.urlGetPaciente);
         axios.get(this.urlGetPaciente, {
           token: this.getToken
         })
           .then((response) => {
             this.paciente = response.data.paciente;
-            console.log('paciente en getCurrentPaciente: ',this.paciente);
+            //console.log('paciente en getCurrentPaciente: ', this.paciente);
+
+            console.log('getCurrentPaciente: OK');
 
           },
             (error) => {
-              this.err = error.response.data.error;
-              this.$store.commit('setPacienteId', undefined);
+              console.log('error en getCurrentPaciente:-->',error);
+              this.err = error;
+              //this.$store.commit('setPacienteId', undefined);
             });
       },
       guardar: function () {
