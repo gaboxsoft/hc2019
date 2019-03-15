@@ -18,22 +18,22 @@
           <b-nav-item-dropdown text="RECEPCIÓN"
                                right>
             <b-dropdown-item href="/RegistroPaciente">Pacientes</b-dropdown-item>
-            <b-dropdown-item href="/Contrato">Contrato Prestación Servicios</b-dropdown-item>
+            <b-dropdown-item disabled href="/Contrato">Contrato Prestación Servicios</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="VALORACIÓN"
                                left>
-            <b-dropdown-item href="#">Consentimiento Informado</b-dropdown-item>
+            <b-dropdown-item disabled href="#">Consentimiento Informado</b-dropdown-item>
             <b-dropdown-item href="/hojaInicialExpediente">Hoja Inicial Expediente</b-dropdown-item>
             <b-dropdown-item href="/HistoriaClinica">História Clínica</b-dropdown-item>
             <b-dropdown-item href="/notaUrgencias">Nota de Urgencias</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="CUIDADOS"
                                right>
-            <b-dropdown-item href="#">Urgencias</b-dropdown-item>
+            <b-dropdown-item disabled href="#">Hoja de Urgencias</b-dropdown-item>
             <b-dropdown-item href="#">Órdenes Médico </b-dropdown-item>
             <b-dropdown-item href="#">Estudios</b-dropdown-item>
-            <b-dropdown-item href="#">Notas de Urgencia</b-dropdown-item>
-            <b-dropdown-item href="/Evolucion">Hoja de Evolución</b-dropdown-item>
+            <b-dropdown-item href="/notaUrgencias">Notas de Urgencia</b-dropdown-item>
+            <b-dropdown-item href="/Evolucion">Hoja de Evolución Paciente</b-dropdown-item>
             <b-dropdown-item href="/MedicoTratante">Médicos Tratantes</b-dropdown-item>
             <b-dropdown-item href="/Receta">Recetario</b-dropdown-item>
           </b-nav-item-dropdown>

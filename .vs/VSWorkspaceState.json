@@ -6,10 +6,11 @@
     "\\library\\msiReportes",
     "\\middleware",
     "\\models",
+    "\\msiformatos",
     "\\pages",
     "\\routes",
-    "\\server"
+    "\\store"
   ],
-  "SelectedNode": "\\components\\headerCmp.vue",
+  "SelectedNode": "\\.ENV",
   "PreviewInSolutionExplorer": false
 }
