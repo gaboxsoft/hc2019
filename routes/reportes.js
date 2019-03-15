@@ -2,6 +2,7 @@ const Paciente = require('../models/paciente');
 const NotaUrgencias = require('../models/notaUrgencias');
 const Evolucion = require('../models/evolucion');
 const Receta = require('../models/receta');
+const OrdenesMedico = require('../models/ordenesMedico');
 
 const express = require('express');
 const app = express();
@@ -17,6 +18,7 @@ const historiaClinicaPdf = require('../library/msiReportes/historiaClinicaPdf');
 const notaUrgenciasPdf = require('../library/msiReportes/notaUrgenciasPdf');
 const hojaEvolucionPdf = require('../library/msiReportes/hojaEvolucionPdf');
 const recetaPdf = require('../library/msiReportes/recetaPdf');
+const ordenesMedicoPdf = require('../library/msiReportes/ordenesMedicoPdf');
 
 
 //app.get('/contrato', verificaToken, function(req, res) {
@@ -126,6 +128,53 @@ app.get('/msi12/:id', function (req, res) {
   //return res.status(200).json({ ok: false, mensaje: 'Falló al buscar el Paciente.' });
 });
 
+app.get('/msi13/:id', function (req, res) {
+
+  console.log('generando órdenes Médico');
+
+  // Obtener el ordenesMedico
+  const id = req.params.id;
+  let token = req.get('token');
+
+  Paciente.findById(id, (err, pacienteBD) => {
+    if (err) {
+      return res.status(400).
+        json({ ok: false, error: '1.- Error al generar reporte MSI-13 ' + err });
+    };
+    if (!pacienteBD) {
+      return res.status(400).
+        json({ ok: false, error: '2.- Error al generar reporte MSI-13: No existe paciente ' });
+    };
+
+    console.log('obtieniendo ordnes medicas...');
+
+    ////////
+    OrdenesMedico.find({ 'situacionSe': { $eq: 1 }, 'paciente': { $eq: id } })
+      .populate('usuarioSe', 'nombre cedula especialidad institucion')
+      //.populate('paciente.medicos', 'nombre cedula especialidad institucion')
+      .sort({ fechaOrden: 'asc' })
+      .exec((err, ordenesMedicosBD) => {
+        if (err) {
+          return res.status(400).
+            json({ ok: false, error: err });
+        };
+        if (!ordenesMedicosBD) {
+          return res.json({ ok: true, conteo: 0, ordenesMedicos: {}, mensaje: 'No hay hoja de evolución.' });
+        };
+
+        
+        let filePath = ordenesMedicoPdf(pacienteBD, ordenesMedicosBD);
+
+        return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-13', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
+
+
+      });
+
+  }).populate('medicos', 'nombre cedula especialidad institucion');
+
+  //return res.status(200).json({ ok: false, mensaje: 'Falló al buscar el OrdenesMedico.' });
+});
+
 app.get('/msi14/:id', function (req, res) {
 
   console.log('generando Hoja de Eolución');
@@ -147,11 +196,11 @@ app.get('/msi14/:id', function (req, res) {
         json({ ok: false, error: '2.- Error al generar reporte MSI-14: No existe paciente ' });
     };
 
-    
+
 
     ////////
     Evolucion.find({ 'situacionSe': { $eq: 1 }, 'paciente': { $eq: id } })
-      .populate('usuarioSe','nombre cedula especialidad institucion')
+      .populate('usuarioSe', 'nombre cedula especialidad institucion')
       .sort({ fecha: 'asc' })
       .exec((err, evolucionesBD) => {
         if (err) {
@@ -163,16 +212,16 @@ app.get('/msi14/:id', function (req, res) {
         };
 
 
-          let filePath = hojaEvolucionPdf(pacienteBD, evolucionesBD);
-          //console.log('path=', path.dirname(filePath), "name=", path.basename(filePath))
-          //return res.download(path.dirname(filePath), path.basename(filePath));
+        let filePath = hojaEvolucionPdf(pacienteBD, evolucionesBD);
+        //console.log('path=', path.dirname(filePath), "name=", path.basename(filePath))
+        //return res.download(path.dirname(filePath), path.basename(filePath));
 
-          return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-11', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
-        
+        return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-11', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
+
 
       });
 
-  }).populate('medicos','nombre cedula especialidad institucion');
+  }).populate('medicos', 'nombre cedula especialidad institucion');
 
   //return res.status(200).json({ ok: false, mensaje: 'Falló al buscar el Paciente.' });
 });

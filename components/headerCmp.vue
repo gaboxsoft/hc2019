@@ -30,7 +30,7 @@
           <b-nav-item-dropdown text="CUIDADOS"
                                right>
             <b-dropdown-item disabled href="#">Hoja de Urgencias</b-dropdown-item>
-            <b-dropdown-item href="#">Órdenes Médico </b-dropdown-item>
+            <b-dropdown-item href="/ordenesMedico">Órdenes Médico </b-dropdown-item>
             <b-dropdown-item href="#">Estudios</b-dropdown-item>
             <b-dropdown-item href="/notaUrgencias">Notas de Urgencia</b-dropdown-item>
             <b-dropdown-item href="/Evolucion">Hoja de Evolución Paciente</b-dropdown-item>

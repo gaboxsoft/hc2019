@@ -1,0 +1,202 @@
+
+<template>
+  <div>
+    <notifyCmp ref="notify" />
+    <form action="#">
+      <table class="table table-sm table-bordered table-info ">
+        <tbody>
+
+          <tr>
+            <td style="width:10%;">FECHA-HORA</td>
+            <td>
+              ORDENES
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <input type="datetime-local" v-model="ordenesMedico.fechaOrdenes" name="fechaOrdenes">
+            </td>
+            <td>
+              <textarea class="input-text textarea-size" type="text" v-model="ordenesMedico.ordenes" name="ordenes" rows="10" cols="50"></textarea>
+              <span><b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn></span>
+            </td>
+
+          </tr>
+
+        </tbody>
+      </table>
+      
+    </form>
+  </div>
+</template>
+<script>
+  import axios from 'axios';
+  import notifyCmp from '~/components/notifyCmp';
+  const moment = require('moment');
+  require('moment/locale/es');  // without this line it didn't work
+  moment.locale('es')
+  export default {
+    name: 'ordenesMedicoCmp',
+    components: {
+      notifyCmp
+    },
+    data() {
+      return {
+        tituloPagina: 'ORDENES',
+
+        paciente: {},
+        ordenesMedico: {},
+      }
+    },
+
+    computed: {
+      urlApiOrdenesMedico: function () {
+        return process.env.urlServer + '/OrdenesMedico/';
+      },
+      urlGetPaciente: function () {
+        return process.env.urlServer + '/Paciente/' + this.$store.state.pacienteId;
+      },
+      urlGetOrdenesMedico: function () {
+        return process.env.urlServer + '/OrdenesMedico/' + this.$store.ordenesMedicoId;
+      },
+      urlOrdenesMedicoPdf: function () {
+        return process.env.urlServer + '/msi13/' + this.$store.state.ordenesMedicoId;
+      },
+      getOrdenesMedicoId: function () {
+        return this.$store.state.ordenesMedicoId;
+      },
+      getToken: function () {
+        return this.$store.state.token;
+      }
+
+    },
+    watch: {
+      getOrdenesMedicoId: function () {
+        this.getCurrentPaciente(this.getToken);
+        if (!this.getOrdenesMedicoId || this.getOrdenesMedicoId === 'NUEVO' || this.getOrdenesMedicoId === 'NONE' || this.getOrdenesMedicoId === '') {
+          this.InicializaOrdenesMedico();
+          this.$store.commit('setOrdenesMedicoId', 'NUEVO');
+        }
+        else {
+          this.getOrdenesMedico();
+        }
+      }
+    },
+    created() {
+      if (!this.getOrdenesMedicoId || this.getOrdenesMedicoId === 'NUEVO' || this.getOrdenesMedicoId === 'NONE' || this.getOrdenesMedicoId === '') {
+        this.InicializaOrdenesMedico();
+        this.$store.commit('setOrdenesMedicoId', 'NUEVO');
+      }
+      else {
+        this.getOrdenesMedico();
+      }
+    },
+
+    methods: {
+      getFechaHora: function () {
+        axios.get(process.env.urlServer + '/fechaHora', { headers: { token: this.getToken } })
+          .then((response) => { return response.data.fechaHora; },
+            (error) => { this.err = error.response.data.error; return new Date(); });
+      },
+
+      InicializaOrdenesMedico: function () {
+        this.ordenesMedico._id = 'NUEVO';
+        this.ordenesMedico.fechaOrdenes = moment(this.getFechaHora()).format('YYYY-MM-DDTHH:mm:ss');
+        this.ordenesMedico.ordenes = '';
+        console.log('ORDENES INICIALIZADA', this.ordenesMedico);
+
+      },
+      getOrdenesMedico: function () {
+        axios.get(process.env.urlServer + '/OrdenesMedico/' + this.$store.state.ordenesMedicoId, {
+          headers: {
+            token: this.getToken
+          }
+        })
+          .then((response) => {
+            this.ordenesMedico = response.data.ordenesMedico;
+            this.ordenesMedico.fechaOrdenes = moment(this.ordenesMedico.fechaOrdenes).format('YYYY-MM-DDTHH:mm:ss');
+
+          },
+            (error) => {
+              this.err = error;
+              this.$store.commit('setOrdenesMedicoId', 'NUEVO');
+              this.InicializaOrdenesMedico();
+            });
+      },
+
+      getCurrentPaciente: function () {
+        axios.get(this.urlGetPaciente, {
+          token: this.getToken
+        })
+          .then((response) => {
+            this.paciente = response.data.paciente;
+          },
+            (error) => {
+              this.err = error;
+            });
+      },
+      guardar: function () {
+        console.log('THIS.ordenesMedico', this.ordenesMedico);
+
+        if (this.ordenesMedico.ordenes.trim() === '') {
+          this.$refs.notify.showNotify("ESCRIBE ALGO....", .25);
+          return;
+        }
+        console.log('this.$store.state.ordenesMedicoId', this.$store.state.ordenesMedicoId);
+        console.log('url-->', this.urlApiOrdenesMedico + this.$store.state.pacienteId);
+
+        if (this.$store.state.ordenesMedicoId === 'NUEVO') {
+          const req = {
+            method: 'post',
+            url: this.urlApiOrdenesMedico + this.$store.state.pacienteId,
+            headers: {
+              token: this.getToken
+            },
+            data: {
+              fechaOrdenes: moment(this.ordenesMedico.fechaOrdenes).format(),
+              ordenes: this.ordenesMedico.ordenes.trim(),
+              paciente: this.$store.state.PacienteId
+            }
+          };
+
+          axios(req)
+            .then((response) => {
+              this.ordenesMedico = {};
+              this.InicializaOrdenesMedico()
+              this.$store.commit('setOrdenesMedicoId', 'NUEVO');
+              this.$store.commit('setHuboCambio');
+            })
+            .catch(err => {
+              console.log('err', err);
+              this.$refs.notify.showNotify("ERROR AL GUARDAR " + err, 5);
+            });
+        }
+        else {
+          const req = {
+            method: 'put',
+            url: this.urlApiOrdenesMedico + this.$store.state.ordenesMedicoId,
+            headers: {
+              token: this.getToken
+            },
+            data: {
+              fechaOrdenes: this.ordenesMedico.fechaOrdenes,
+              ordenes: this.ordenesMedico.ordenes
+            }
+          };
+          axios(req)
+            .then((response) => {
+              this.$store.commit('setHuboCambio');
+              this.$store.commit('setOrdenesMedicoId', this.ordenesMedico._id);
+
+            })
+            .catch(err => {
+              this.$refs.notify.showNotify("ERROR AL GUARDAR " + err, 5);
+            });
+        }
+      }
+      
+    }
+  };
+
+</script>

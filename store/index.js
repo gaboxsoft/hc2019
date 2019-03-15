@@ -8,7 +8,8 @@ export const state = () => ({
 
   notaUrgenciasId: 'NONE',
   evolucionId: 'NONE',
-  recetaId:'NONE',
+  recetaId: 'NONE',
+  ordenesMedicoId: 'NONE',
 
   editingUsuarioId: 'NONE',
 
@@ -70,6 +71,9 @@ export const mutations = {
 
   setRecetaId(state, payload) {
     state.recetaId = payload;
+  },
+  setOrdenesMedicoId(state, payload) {
+    state.ordenesMedicoId = payload;
   },
   setUsuarioId(state, payload) {
     state.usuarioId = payload;
