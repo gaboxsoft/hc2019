@@ -2,15 +2,23 @@
 export const state = () => ({
   token: 'NONE',
   pacienteId: 'NONE',
+
   usuarioId: 'NONE',
   usuario: {},
+
   notaUrgenciasId: 'NONE',
   evolucionId: 'NONE',
+  recetaId:'NONE',
+
   editingUsuarioId: 'NONE',
+
   socketNotasUrgencias: true,
   socketEvolucion: true,
   socketDatosGenerales: true,
-  socketView:true,
+  socketView: true,
+  huboCambio: true,
+
+
   host: 'NONE',
   port: 0
 });
@@ -59,6 +67,10 @@ export const mutations = {
   setPacienteId(state, payload) {
     state.pacienteId = payload;
   },
+
+  setRecetaId(state, payload) {
+    state.recetaId = payload;
+  },
   setUsuarioId(state, payload) {
     state.usuarioId = payload;
   },
@@ -68,6 +80,11 @@ export const mutations = {
   setEditingUsuarioId(state, payload) {
     state.editingUsuarioId = payload;
   },
+
+  setHuboCambio(state) {
+    state.huboCambio = !state.huboCambio;
+  },
+
   setSocketNotasUrgencias(state) {
     state.socketNotasUrgencias = !state.socketNotasUrgencias;
   },

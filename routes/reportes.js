@@ -1,6 +1,7 @@
 const Paciente = require('../models/paciente');
 const NotaUrgencias = require('../models/notaUrgencias');
 const Evolucion = require('../models/evolucion');
+const Receta = require('../models/receta');
 
 const express = require('express');
 const app = express();
@@ -15,8 +16,8 @@ const hojaInicialExpedientePdf = require('../library/msiReportes/hojaInicialExpe
 const historiaClinicaPdf = require('../library/msiReportes/historiaClinicaPdf');
 const notaUrgenciasPdf = require('../library/msiReportes/notaUrgenciasPdf');
 const hojaEvolucionPdf = require('../library/msiReportes/hojaEvolucionPdf');
+const recetaPdf = require('../library/msiReportes/recetaPdf');
 
-const axios = require('axios');
 
 //app.get('/contrato', verificaToken, function(req, res) {
 app.get('/msi00/:id', function (req, res) {
@@ -146,24 +147,7 @@ app.get('/msi14/:id', function (req, res) {
         json({ ok: false, error: '2.- Error al generar reporte MSI-14: No existe paciente ' });
     };
 
-    ////////Obtiene la nota de urgencias mas actual
-
-    //////NotaUrgencias.find({}, (err, notasUrgenciasBD) => {
-    //////  if (err) {
-    //////    return res.status(400).
-    //////      json({ ok: false, error: '3.- Error al generar reporte MSI-12: ', err });
-    //////  };
-    //////  if (!notasUrgenciasBD) {
-    //////    return res.status(400).
-    //////      json({ ok: false, error: '4.- Error al generar reporte MSI-12: No existe Nota Urgencias ' });
-    //////  };
-    //////  //console.log(`0.-voy a ir a crear hoja exp: `);
-    //////  let filePath = notaUrgenciasPdf(pacienteBD, notaUrgenciasBD);
-    //////  //console.log('path=', path.dirname(filePath), "name=", path.basename(filePath))
-    //////  //return res.download(path.dirname(filePath), path.basename(filePath));
-
-    //////  return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-11', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
-    //////});
+    
 
     ////////
     Evolucion.find({ 'situacionSe': { $eq: 1 }, 'paciente': { $eq: id } })
@@ -191,6 +175,38 @@ app.get('/msi14/:id', function (req, res) {
   }).populate('medicos','nombre cedula especialidad institucion');
 
   //return res.status(200).json({ ok: false, mensaje: 'Falló al buscar el Paciente.' });
+});
+
+
+app.get('/msi15/:id', function (req, res) {
+
+  console.log('generando Receta');
+  //console.log('TOKEN..................', req.get('token'));
+  //console.log('ID PACIENTE..................', req.params.id);
+
+  // Obtener la receta
+  const id = req.params.id;
+  let token = req.get('token');
+
+  
+
+
+  ////////
+  Receta.findOne({ 'situacionSe': { $eq: 1 }, '_id': { $eq: id } })
+    .populate('usuarioSe', 'nombre cedula especialidad institucion')
+    .populate('paciente')
+    .exec((err, recetaBD) => {
+      if (err) {
+        return res.status(400).
+          json({ ok: false, error: err });
+      };
+      if (!recetaBD) {
+        return res.status(401).json({ ok: false, mensaje: 'No hay receta.' });
+      };
+      let filePath = recetaPdf(recetaBD);
+      return res.status(200).json({ ok: true, menssaje: 'Se genero el formato MSI-11', pdfFile: process.env.URL_SERVER + '/pdfs/' + path.basename(filePath) });
+    });
+
 });
 
 

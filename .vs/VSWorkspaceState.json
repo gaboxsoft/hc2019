@@ -8,9 +8,8 @@
     "\\models",
     "\\pages",
     "\\routes",
-    "\\server",
-    "\\store"
+    "\\server"
   ],
-  "SelectedNode": "\\routes\\usuario.js",
+  "SelectedNode": "\\components\\headerCmp.vue",
   "PreviewInSolutionExplorer": false
 }

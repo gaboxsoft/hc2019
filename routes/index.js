@@ -15,6 +15,7 @@ app.use(require('./hojaInicialExpediente'));
 app.use(require('./historiaClinica'));
 app.use(require('./notaUrgencias'));
 app.use(require('./evolucion'));
+app.use(require('./receta'));
 
 
 

@@ -10,13 +10,13 @@ var recetaSchema = new Schema({
     //required: [true, 'La fecha de ingreso es necesaria.'],
     default: () => { new Date().toLocaleString() }
   },
-  receta: {
+  prescripcion: {
     type: String,
     uppercase: true
   },
   paciente: {
     type: Schema.Types.ObjectId,
-    ref: 'Usuario'
+    ref: 'Paciente'
   },
 
 
