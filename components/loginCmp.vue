@@ -93,28 +93,28 @@
       }
     },
     created() {
-      console.log(' LOGIN CREADO');
+      //console.log(' LOGIN CREADO');
 
     },
     methods: {
       loginAdmin() {
-        console.log('1.- presionó botón ABRIR SESIÓN DE PRUEBA');
+        //console.log('1.- presionó botón ABRIR SESIÓN DE PRUEBA');
         this.usuarioLogin = { email: '', password: '' };
         this.usuarioLogin.email = "gabox@msn.com";
         this.usuarioLogin.password = "12345";
-        console.log('2.- presionó botón ABRIR SESIÓN DE PRUEBA');
+        //console.log('2.- presionó botón ABRIR SESIÓN DE PRUEBA');
         this.login();
       },
 
       login() {
-        console.log('LOGIN before check usuarioLogin', this.usuarioLogin);
+        //console.log('LOGIN before check usuarioLogin', this.usuarioLogin);
         if (this.usuarioLogin.email === '' || this.usuarioLogin.password === '') {
           this.$store.commit('setToken', 'NONE');
           this.token = 'NONE';
           return;
         }
-        console.log('LOGIN before axios', this.usuarioLogin);
-        console.log('LOGIN before axios', urlLogin);
+        //console.log('LOGIN before axios', this.usuarioLogin);
+        //console.log('LOGIN before axios', urlLogin);
         axios.post(urlLogin, {
           email: this.usuarioLogin.email,
           password: this.usuarioLogin.password

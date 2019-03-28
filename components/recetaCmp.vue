@@ -104,8 +104,7 @@
         this.receta._id = 'NUEVO';
         this.receta.fechaReceta = moment(this.getFechaHora()).format('YYYY-MM-DDTHH:mm:ss');
         this.receta.prescripcion = '';
-        console.log('RECETA iNICIALIZADA', this.receta);
-
+        //console.log('RECETA iNICIALIZADA', this.receta);
       },
       getReceta: function () {
         axios.get(process.env.urlServer + '/Receta/' + this.$store.state.recetaId, {
@@ -137,14 +136,14 @@
             });
       },
       guardar: function () {
-        console.log('THIS.receta', this.receta);
+        //console.log('THIS.receta', this.receta);
 
         if (this.receta.prescripcion.trim() === '') {
           this.$refs.notify.showNotify("ESCRIBE ALGO....", .25);
           return;
         }
-        console.log('this.$store.state.recetaId', this.$store.state.recetaId);
-        console.log('url-->', this.urlApiReceta + this.$store.state.pacienteId);
+        //console.log('this.$store.state.recetaId', this.$store.state.recetaId);
+        //console.log('url-->', this.urlApiReceta + this.$store.state.pacienteId);
 
         if (this.$store.state.recetaId === 'NUEVO') {
           const req = {
@@ -168,7 +167,7 @@
               this.$store.commit('setHuboCambio');
             })
             .catch(err => {
-              console.log('err', err);
+              //console.log('err', err);
               this.$refs.notify.showNotify("ERROR AL GUARDAR " + err, 5);
             });
         }
