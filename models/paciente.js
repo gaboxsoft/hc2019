@@ -124,22 +124,28 @@ let pacienteSchema = new Schema({
 
   tituloMT: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   tituloAbrMT: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   nombreMT: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   cedulaMT: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   institucionMT: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   especialidadMT: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
 
   //////////////////////////
 
@@ -176,185 +182,236 @@ let pacienteSchema = new Schema({
   },
   seguro: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   diagnosticoEgreso: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   ocupacion: { type: String },
   FC: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   FR: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   TA: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   T: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   peso: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   talla: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   antecedentesImportancia: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   resumenClinico: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   indicaciones: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
 
-/////////////////////////
-// Historia Clínica
-/////////////////////////
+  /////////////////////////
+  // Historia Clínica
+  /////////////////////////
   edoCivil: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   lugarOrigen: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   antHeredoFam: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   personalesPato: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   personalesNoPato: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   menarca: {
     type: String,
     uppercase: true
   },
   tensionMens: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   ritmo: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   inicioVidaSexual: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   gestados: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   partos: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   abortos: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   cesareas: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   fechaUltimpoParto: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   fechaUltimoAborto: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   pesoProductos: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   fechaUltimaRegla: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   fechaUltimaCitoCervix: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   circuncision: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   proteccionMenstrual: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   otrosHistoriaClinica: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   padecimientoActual: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   peso: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   talla: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   temperatura: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   tensionArterial: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   craneo: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   cara: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   fondoOcular: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   cuello: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   cardioPulmunar: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   abdomen: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   mamas: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   tactoVaginal: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   tactoRectal: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   miembros: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   ID: {
     type: String,
-    uppercase: true },
+    uppercase: true
+  },
   TX: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   LAB: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   USG: {
     type: String,
-    uppercase: true},
+    uppercase: true
+  },
   RX: {
     type: String,
-    uppercase: true },
-/////////////////////////
+    uppercase: true
+  },
+  /////////////////////////
 
-////  //////////////////////////
-////  // Notas de Urgencias
-////  /////////////////////////
-////  notasEvolucion: [{
-////    type: Schema.Types.ObjectId,
-////    ref: 'NotaUrgencias'
-////  }],
-/////////////////////////////
-////  //////////////////////////
-////  // Hoja de Evolución
-////  /////////////////////////
-////  hojaEvolucion: [{
-////    type: Schema.Types.ObjectId,
-////    ref: 'HojaEvolucion'
-////  }],
-/////////////////////////
-// Sello
+  ////  //////////////////////////
+  ////  // Notas de Urgencias
+  ////  /////////////////////////
+  ////  notasEvolucion: [{
+  ////    type: Schema.Types.ObjectId,
+  ////    ref: 'NotaUrgencias'
+  ////  }],
+  /////////////////////////////
+  ////  //////////////////////////
+  ////  // Hoja de Evolución
+  ////  /////////////////////////
+  ////  hojaEvolucion: [{
+  ////    type: Schema.Types.ObjectId,
+  ////    ref: 'HojaEvolucion'
+  ////  }],
+  /////////////////////////
+  // Sello
   fechaCreacionSe: {
     type: Date,
     required: [true, 'La fecha de creación es necesaria.'],
@@ -376,7 +433,7 @@ let pacienteSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Usuario'
   }
-/////////////////////////
+  /////////////////////////
 });
 
 pacienteSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único. ' })

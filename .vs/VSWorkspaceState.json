@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\components",
+    "\\config",
     "\\library",
-    "\\library\\msiReportes",
     "\\middleware",
     "\\models",
     "\\msiformatos",
     "\\pages",
-    "\\routes",
-    "\\store"
+    "\\public",
+    "\\routes"
   ],
-  "SelectedNode": "\\.ENV",
+  "SelectedNode": "\\components\\footerCmp.vue",
   "PreviewInSolutionExplorer": false
 }

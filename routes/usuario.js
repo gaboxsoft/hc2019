@@ -36,13 +36,13 @@ app.get('/listausuarios', function (req, res) {
 
 
 
-app.get('/Medicos', [verificaToken, rolD],function (req, res) {
+app.get('/Medicos', [verificaToken, rolD], function (req, res) {
 
   //res.json({ ok: true, mensaje: 'hola desde node Lista Usuarios' });
   //let limite = Number(req.query.limite || 0);
   //let desde = Number(req.query.desde || 0);
 
-  Usuario.find({ situacion: { $gt: 0 }, rol:'DOCTOR_ROL' }) // Mayor que cero no esta borrado
+  Usuario.find({ situacion: { $gt: 0 }, rol: 'DOCTOR_ROL' }) // Mayor que cero no esta borrado
     .exec((err, usuarios) => {
       if (err) {
         return res.status(400).
@@ -53,8 +53,8 @@ app.get('/Medicos', [verificaToken, rolD],function (req, res) {
           return res.status(400).
             json({ ok: false, error: err });
         }
-       
-        return res.status(200).json({ ok: true, conteo: conteo, medicos:usuarios });
+
+        return res.status(200).json({ ok: true, conteo: conteo, medicos: usuarios });
       });
     });
 });
@@ -84,13 +84,14 @@ app.get('/usuarios', verificaToken, function (req, res) {
           return res.status(400).
             json({ ok: false, error: err });
         }
-        res.json({ ok: true, conteo: conteo, usuarios});
+        res.json({ ok: true, conteo: conteo, usuarios });
       });
     });
 });
 
 
 app.get('/usuario/:id', verificaToken, function (req, res) {
+//app.get('/usuario/:id',  function (req, res) {
 
   let id = req.params.id;
   //console.log('1.-en route/GET/usuario/' + id);

@@ -39,14 +39,15 @@
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="HOSPITALIZACIÓN"
                                right>
-            <b-dropdown-item href="#">Órdenes Médico</b-dropdown-item>
-            <b-dropdown-item href="#">Hoja de Evolución</b-dropdown-item>
+            <b-dropdown-item href="/ordenesMedico">Órdenes Médico</b-dropdown-item>
+            <b-dropdown-item href="/Evolucion">Hoja de Evolución Paciente</b-dropdown-item>
             <b-dropdown-item href="#">Historia Clínica Recién Nacido</b-dropdown-item>
-            <b-dropdown-item href="#">Registro Clínico Meonatolgía</b-dropdown-item>
+            <b-dropdown-item disabled href="#">Registro Clínico Meonatolgía</b-dropdown-item>
             <b-dropdown-item href="#">Responsiva Mamá</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="PROC.QUIRÚGICO"
                                right>
+            <b-dropdown-item href="/MedicoTratante">Médicos Tratantes</b-dropdown-item>
             <b-dropdown-item href="#">Programación Quirúrgica</b-dropdown-item>
             <b-dropdown-item href="#">Consentimiento Anestésia</b-dropdown-item>
             <b-dropdown-item href="#">Consentimiento Alto Riesgo</b-dropdown-item>
@@ -54,9 +55,9 @@
           <b-nav-item-dropdown text="CIRUGÍA"
                                right>
             <b-dropdown-item href="#">Registro Anestésia</b-dropdown-item>
-            <b-dropdown-item href="#">Estudio Piezas Anatomopatlógicas</b-dropdown-item>
-            <b-dropdown-item href="#">Órdenes Médico</b-dropdown-item>
-            <b-dropdown-item href="#">Evolución</b-dropdown-item>
+            <b-dropdown-item href="#">Estudio Piezas Anatomopatológicas</b-dropdown-item>
+            <b-dropdown-item href="/ordenesMedico">Órdenes Médico</b-dropdown-item>
+            <b-dropdown-item href="/Evolucion">Hoja Evolución Paciente</b-dropdown-item>
             <b-dropdown-item href="#">Hoja Quirúgica</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="EGRESO"

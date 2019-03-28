@@ -69,6 +69,9 @@
 
         getUsuario: function () {
           this.token = this.getToken;
+          if (this.getUsuarioId==='NONE') {
+            return this.usuario = {};
+          };
           axios.get(process.env.urlServer + '/usuario/' + this.getUsuarioId, {
             headers: {
               token: this.getToken

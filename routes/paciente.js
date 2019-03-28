@@ -55,7 +55,7 @@ app.get('/pacientes', verificaToken, function (req, res) {
 app.get('/paciente/:id', function (req, res) {
   const id = req.params.id;
   let token = req.get('token');
-  //console.log('En /paciente/', id, ' con token:', token);
+  console.log('En /paciente/', id, ' con token:', token);
   Paciente.findById(id, (err, pacienteBD) => {
     if (err) {
       return res.status(401).
@@ -65,7 +65,7 @@ app.get('/paciente/:id', function (req, res) {
       return res.status(401).json({ ok: false, mensaje: 'No existe este paciente' });
     }
     //pacienteBD.populate('medicos', 'nombre');
-    //console.log('pacienteBD-->', pacienteBD);
+    console.log('pacienteBD -->', pacienteBD);
     return res.json({ ok: true, paciente: pacienteBD });
   }).populate('medicos', 'nombre cedula especialidad');
 });

@@ -55,7 +55,7 @@
       },
       created() {
 
-        //console.log('Aquí en creado pacienteTAGCmp: ', this.urlGetPaciente)
+        console.log('Aquí en creado pacienteTAGCmp: ', this.urlGetPaciente)
         if (this.getPacienteId === '') {
 
         };
@@ -65,24 +65,31 @@
 
         getPaciente() {
 
-          //console.log('2 getPaciente-->token: ', this.$store.state.token);
-          //console.log('3 pacienteTagCmp-->getPaciente: ');
+          if (this.$store.state.pacienteId==='NONE') {
+            return this.paciente = {};
+          };
+          console.log('2 getPaciente-->token: ', this.$store.state.token);
+          console.log('3 pacienteTagCmp-->getPaciente: ', this.$store.state.pacienteId);
           this.token = this.getToken;
-          //console.log('4 getPaciente-->token: ', this.token);
+          console.log('4 getPaciente-->token: ', this.token, '---',this.$store.state.token);
+          
+
           axios.get(this.urlGetPaciente, {
-            token: this.token
+           
+              token: this.$store.state.token
           })
             .then((response) => {
-              //console.log('5 getPaciente-->lEÍ PACIENTE OK: ', response.data.paciente);
+              console.log('5 getPaciente-->lEÍ PACIENTE OK: ', response.data);
               this.paciente = response.data.paciente;
               //this.$store.commit('setCurrentPaciente', response.data.paciente);
 
             },
               (error) => {
+                console.log('hubo error: en pacienteTag : ', error.Error, error.config);
                 this.paciente = { nombre: '--N I N G U N O--' };
                 //this.$store.commit('setCurrentPaciente', this.paciente);
-                //console.log('hubo error: en pacienteTag : ',error);
-                this.err = error.response.data.error;
+                //this.err = error.response.data.error;
+                this.err = error.response;
               });
           //console.log('al final en pacienteTag= ', this.paciente);
         }
@@ -92,51 +99,3 @@
 
 </script>
 
-<!--<style scoped>
-  html {
-    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 16px;
-    word-spacing: 1px;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
-  }
-
-  *,
-  *:before,
-  *:after {
-    box-sizing: border-box;
-    margin: 0;
-  }
-
-  .button--green {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #3b8070;
-    color: #3b8070;
-    text-decoration: none;
-    padding: 10px 30px;
-  }
-
-    .button--green:hover {
-      color: #fff;
-      background-color: #3b8070;
-    }
-
-  .button--grey {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #35495e;
-    color: #35495e;
-    text-decoration: none;
-    padding: 10px 30px;
-    margin-left: 15px;
-  }
-
-    .button--grey:hover {
-      color: #fff;
-      background-color: #35495e;
-    }
-</style>-->

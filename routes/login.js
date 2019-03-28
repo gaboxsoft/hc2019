@@ -35,6 +35,7 @@ app.post('/login', verificaPrimerUsuarioAdmin, function(req, res) {
             json({ ok: false, error: "el nombre del usuario o (contraseña) no son correctas." });
         };
 
+      console.log('LOGIN usuarioBD: ', usuarioBD);
 
         let token = jwt.sign({
                 usuario: usuarioBD

@@ -93,28 +93,34 @@
       }
     },
     created() {
+      console.log(' LOGIN CREADO');
+
     },
     methods: {
       loginAdmin() {
-
-        this.usuarioLogin = { email: '', password: '' }
+        console.log('1.- presionó botón ABRIR SESIÓN DE PRUEBA');
+        this.usuarioLogin = { email: '', password: '' };
         this.usuarioLogin.email = "gabox@msn.com";
         this.usuarioLogin.password = "12345";
+        console.log('2.- presionó botón ABRIR SESIÓN DE PRUEBA');
         this.login();
       },
 
       login() {
+        console.log('LOGIN before check usuarioLogin', this.usuarioLogin);
         if (this.usuarioLogin.email === '' || this.usuarioLogin.password === '') {
           this.$store.commit('setToken', 'NONE');
           this.token = 'NONE';
           return;
         }
-
+        console.log('LOGIN before axios', this.usuarioLogin);
+        console.log('LOGIN before axios', urlLogin);
         axios.post(urlLogin, {
           email: this.usuarioLogin.email,
           password: this.usuarioLogin.password
         })
           .then((response) => {
+            console.log('LOGIN data', response);
             this.token = response.data.token;
             this.$store.commit('setToken', this.token);
             this.usuarioLogin = response.data.usuario;
@@ -128,7 +134,8 @@
             }
           },
             (error) => {
-              this.err = error.response.data.error;
+              //this.err = error.response.data.error;
+              console.log('error en login:', error);
               this.$store.commit('setToken', 'NONE');
               this.$store.commit('setPacienteId', 'NONE');
               this.$store.commit('setUsuarioId', 'NONE');

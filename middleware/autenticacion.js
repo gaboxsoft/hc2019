@@ -15,7 +15,7 @@ let verificaToken = (req, res, next) => {
   //let request = req;
   let token = req.get('token');
   //if (token === 'NONE') {
-  //console.log('El token es.......', token);
+  console.log('verificaTOKEN->El token es.......', token);
   //};
   //console.log('0> En VerificaToken, req -->', req);
   //console.log('1> En VerificaToken, token -->', new Date(Date.now()), token);
