@@ -22,14 +22,14 @@
 
       <form action="#" name=FORM1>
         <p>
-          <!--<input id="SignBtn" name="SignBtn" type="button" value="Sign" onclick="onSign()" />&nbsp;&nbsp;&nbsp;&nbsp;-->
-          <button id="SignBtn" name="SignBtn" v-on:click="onSign()">Sign</button>
+          <input id="SignBtn" name="SignBtn" type="button" value="Sign" onclick="javascript:onSign()" /> <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+          <!--<button id="SignBtn" name="SignBtn" v-on:click="onSign()">Sign</button>-->
 
-          <!--<input id="button1" name="ClearBtn" type="button" value="Clear" onclick="onClear()" />&nbsp;&nbsp;&nbsp;&nbsp-->
-          <button id="button1" name="ClearBtn" v-on:click="onClear()">Clear</button>
+          <input id="button1" name="ClearBtn" type="button" value="Clear" onclick="javascript:onClear()" /><!--&nbsp;&nbsp;&nbsp;&nbsp-->
+          <!--<button id="button1" name="ClearBtn" v-on:click="onClear()">Clear</button>-->
 
-          <!--<input id="button2" name="DoneBtn" type="button" value="Done" onclick="onDone()" />&nbsp;&nbsp;&nbsp;&nbsp-->
-          <button id="button2" name="DoneBtn" v-on:click="onDone()">Done</button>
+          <input id="button2" name="DoneBtn" type="button" value="Done" onclick="javascript:onDone()" /><!--&nbsp;&nbsp;&nbsp;&nbsp-->
+          <!--<button id="button2" name="DoneBtn" v-on:click="onDone()">Done</button>-->
 
           <input type="hidden" name="bioSigData">
           <input type="hidden" name="sigImgData">
@@ -49,7 +49,6 @@
 
 <script>
 
-  var tmr;
 
   export default {
     name: 'FirmaBak',
