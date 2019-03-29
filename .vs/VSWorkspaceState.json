@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\assets",
     "\\components",
     "\\config",
+    "\\layouts",
     "\\library",
-    "\\middleware",
-    "\\models",
-    "\\msiformatos",
-    "\\pages",
-    "\\public",
-    "\\routes"
+    "\\library\\fechas",
+    "\\library\\msiReportes",
+    "\\library\\pdfkit",
+    "\\middleware"
   ],
-  "SelectedNode": "\\components\\footerCmp.vue",
+  "SelectedNode": "\\library\\pdfkit\\gxPdf.js",
   "PreviewInSolutionExplorer": false
 }
