@@ -19,9 +19,13 @@
             </td>
             <td>
               <textarea class="input-text textarea-size" type="text" v-model="ordenesMedico.ordenes" name="ordenes" rows="10" cols="50"></textarea>
+              <!--<span><b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn></span>-->
+            </td>
+            <td>
+              <!--<textarea class="input-text textarea-size" type="text" v-model="ordenesMedico.ordenes" name="ordenes" rows="10" cols="50"></textarea>-->
+              <firmaCmp />
               <span><b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn></span>
             </td>
-
           </tr>
 
         </tbody>
@@ -33,13 +37,15 @@
 <script>
   import axios from 'axios';
   import notifyCmp from '~/components/notifyCmp';
+  import firmaCmp from '~/components/firmaCmp';
   const moment = require('moment');
   require('moment/locale/es');  // without this line it didn't work
   moment.locale('es')
   export default {
     name: 'ordenesMedicoCmp',
     components: {
-      notifyCmp
+      notifyCmp,
+      firmaCmp
     },
     data() {
       return {

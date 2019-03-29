@@ -7,10 +7,10 @@
     "\\layouts",
     "\\library",
     "\\library\\fechas",
-    "\\library\\msiReportes",
-    "\\library\\pdfkit",
-    "\\middleware"
+    "\\node_modules\\bootstrap\\js",
+    "\\node_modules\\popper.js\\dist",
+    "\\public"
   ],
-  "SelectedNode": "\\library\\pdfkit\\gxPdf.js",
+  "SelectedNode": "\\sube.bat",
   "PreviewInSolutionExplorer": false
 }
