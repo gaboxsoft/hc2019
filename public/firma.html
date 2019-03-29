@@ -83,40 +83,45 @@
 
   <script type="text/javascript">-->
 
-  <table border="1" cellpadding="0" width="500">
-    <tbody>
-      <tr>
-        <td height="100" width="500">
-          <canvas id="cnv" name="cnv" width="500" height="100"></canvas>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<!--  <table border="1" cellpadding="0" width="500">-->
+    <table border="1" cellpadding="0" width="100">
+      <tbody>
+        <tr>
+
+          <!--<td height="100" width="500">
+          -->
+          <td height="50" width="100">
+            <!--<canvas id="cnv" name="cnv" width="500" height="100"></canvas>-->
+            <canvas id="cnv" name="cnv" width="100" height="50"></canvas>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
 
-  <br />
-  <canvas name="SigImg" id="SigImg" width="500" height="100"></canvas>
+    <br />
+    <canvas name="SigImg" id="SigImg" width="500" height="100"></canvas>
 
 
 
-  <form action="#" name=FORM1>
-    <p>
-      <input id="SignBtn" name="SignBtn" type="button" value="Sign" onclick="javascript:onSign()" />&nbsp;&nbsp;&nbsp;&nbsp;
-      <input id="button1" name="ClearBtn" type="button" value="Clear" onclick="javascript:onClear()" />&nbsp;&nbsp;&nbsp;&nbsp
+    <form action="#" name=FORM1>
+      <p>
+        <input id="SignBtn" name="SignBtn" type="button" value="Sign" onclick="javascript:onSign()" />&nbsp;&nbsp;&nbsp;&nbsp;
+        <input id="button1" name="ClearBtn" type="button" value="Clear" onclick="javascript:onClear()" />&nbsp;&nbsp;&nbsp;&nbsp
 
-      <input id="button2" name="DoneBtn" type="button" value="Done" onclick="javascript:onDone()" />&nbsp;&nbsp;&nbsp;&nbsp
+        <input id="button2" name="DoneBtn" type="button" value="Done" onclick="javascript:onDone()" />&nbsp;&nbsp;&nbsp;&nbsp
 
-      <input TYPE=HIDDEN NAME="bioSigData" />
-      <input TYPE=HIDDEN NAME="sigImgData" />
-      <br />
-      <br />
+        <input TYPE=HIDDEN NAME="bioSigData" />
+        <input TYPE=HIDDEN NAME="sigImgData" />
+        <br />
+        <br />
 <textarea NAME="sigStringData" ROWS="20" COLS="50">SigString: </textarea>
 <textarea NAME="sigImageData" ROWS="20" COLS="50">Base64 String: </textarea>
-    </p>
-  </form>
+      </p>
+    </form>
 
-  <br />
-  <br />
+    <br />
+    <br />
 
-</body>
+  </body>
 </html>

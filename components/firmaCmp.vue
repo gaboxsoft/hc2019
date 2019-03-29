@@ -1,23 +1,24 @@
 <template>
 
-  <div class="bg-danger">
+  <div >
+    <button id="window" v-on:click="getWindow">window</button>
     <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#miFirma">FIRMAR</button>-->
     <!--<div class="modal fade" id="miFirma">
-      <div class="modal-dialog">
-        <div class="modal-content">-->
+    <div class="modal-dialog">
+      <div class="modal-content">-->
     <!-- CABECERA -->
     <!--<div class="modal-header">
-      <h4 class="modal-title">F I R M A R</h4>
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
-    </div>-->
+    <h4 class="modal-title">F I R M A R</h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+  </div>-->
     <!--BODY -->
     <!--<div class="modal-body">-->
     <div>
-      <table border="1" cellpadding="0" width="500">
+      <table border="1" cellpadding="0" width="100">
         <tbody>
           <tr>
-            <td height="100" width="500">
-              <canvas id="cnv" name="cnv" width="500" height="100"></canvas>
+            <td height="50" width="100">
+              <canvas id="cnv" name="cnv" width="100" height="50"></canvas>
             </td>
           </tr>
         </tbody>
@@ -48,14 +49,14 @@
 
       <br /><br />
     </div>
-  <!--</div>-->
-  <!-- FOOTER -->
-  <!--<div class="modal-footer">
+    <!--</div>-->
+    <!-- FOOTER -->
+    <!--<div class="modal-footer">
     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cierra</button>
     <button type="button" class="btn btn-primary">Guardar</button>
   </div>-->
-  <!--</div>
+    <!--</div>
     </div>
   </div>-->
   </div>
@@ -79,6 +80,18 @@
     },
     mounted() {
 
+
+      let scriptSigWeb = document.createElement('script');
+      scriptSigWeb.setAttribute('src', 'sigWebTablet.js');
+      document.head.appendChild(scriptSigWeb);
+
+      //window.onunload = window.onbeforeunload = (function () {
+      //  //this.closingSigWeb();
+      //  ClearTablet();
+      //  SetTabletState(0, tmr);
+      //});
+
+      
       //let link = document.createElement('link');
       //link.rel = 'stylesheet';
       //link.type = 'text/css';
@@ -105,8 +118,11 @@
       },
 
       onSign: function () {
-
+        console.log('ONSIGN..');
         var ctx = document.getElementById('cnv').getContext('2d');
+        //if (SetDisplayXSize) {
+        //  console.log('SetDisplayXSize..');
+        //}
         SetDisplayXSize(500);
         SetDisplayYSize(100);
         SetTabletState(0, tmr);
@@ -128,7 +144,7 @@
 
       onDone: function () {
         if (NumberOfTabletPoints() == 0) {
-          alert("POR FAVOR FIRMA ANTES DE CONTINUAR....");
+          alert("POR FAVOR FIRMAR ANTES DE CONTINUAR....");
         }
         else {
           SetTabletState(0, tmr);

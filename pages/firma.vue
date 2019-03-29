@@ -8,7 +8,7 @@
 
 
 <script>
-
+  
   import firmaCmp from '~/components/firmaCmp';
   export default {
     name: 'Firma',

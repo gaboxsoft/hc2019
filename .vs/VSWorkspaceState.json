@@ -7,8 +7,7 @@
     "\\layouts",
     "\\library",
     "\\library\\fechas",
-    "\\node_modules\\bootstrap\\js",
-    "\\node_modules\\popper.js\\dist",
+    "\\pages",
     "\\public"
   ],
   "SelectedNode": "\\sube.bat",
