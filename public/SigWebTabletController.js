@@ -1,5 +1,8 @@
 var tmr;
 
+var imgBase64 = 'NONE';
+
+
 function controller() {
   return 'en controller....';
 }
@@ -25,7 +28,7 @@ function onClear() {
   ClearTablet();
 }
 
-function onDone() {
+function onDone(callbackOnDone) {
   if (NumberOfTabletPoints() == 0) {
     alert("Please sign before continuing");
   }
@@ -33,8 +36,8 @@ function onDone() {
     SetTabletState(0, tmr);
     //RETURN TOPAZ-FORMAT SIGSTRING
     SetSigCompressionMode(1);
-    document.FORM1.bioSigData.value = GetSigString();
-    document.FORM1.sigStringData.value += GetSigString();
+    ////document.FORM1.bioSigData.value = GetSigString();
+    ////document.FORM1.sigStringData.value += GetSigString();
     //this returns the signature in Topaz's own format, with biometric information
 
 
@@ -42,19 +45,22 @@ function onDone() {
     SetImageXSize(500);
     SetImageYSize(100);
     SetImagePenWidth(5);
-    GetSigImageB64(SigImageCallback);
+    GetSigImageB64(SigImageCallback, callbackOnDone);
+    
+     
   }
 }
 
 function SigImageCallback(str) {
-  document.FORM1.sigImageData.value = str;
+  textarea = document.getElementsByName('xfirmaBase64');
+  textarea.value = str;
 }
 
 
 
-//window.onunload = window.onbeforeunload = (function () {
-//  closingSigWeb()
-//})
+window.onunload = window.onbeforeunload = (function () {
+  closingSigWeb()
+})
 
 function closingSigWeb() {
   ClearTablet();

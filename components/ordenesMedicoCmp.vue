@@ -8,9 +8,8 @@
 
           <tr>
             <td style="width:10%;">FECHA-HORA</td>
-            <td>
-              ORDENES
-            </td>
+            <td>ORDENES</td>
+            <td>FIRMA</td>
           </tr>
 
           <tr>
@@ -24,7 +23,7 @@
             <td>
               <!--<textarea class="input-text textarea-size" type="text" v-model="ordenesMedico.ordenes" name="ordenes" rows="10" cols="50"></textarea>-->
               <firmaCmp />
-              <span><b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn></span>
+              <!--<span><b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn></span>-->
             </td>
           </tr>
 

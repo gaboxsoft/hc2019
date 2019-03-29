@@ -1,69 +1,49 @@
 <template>
 
-  <div >
-    <button id="window" v-on:click="getWindow">window</button>
-    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#miFirma">FIRMAR</button>-->
-    <!--<div class="modal fade" id="miFirma">
-    <div class="modal-dialog">
-      <div class="modal-content">-->
-    <!-- CABECERA -->
-    <!--<div class="modal-header">
-    <h4 class="modal-title">F I R M A R</h4>
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
-  </div>-->
-    <!--BODY -->
-    <!--<div class="modal-body">-->
+  <div>
+    <!--<button id="showFirma" v-on:click="showFirma">Muestra Firma</button>-->
+
+    <!--<p>BASE64: {{firmaPngBase64}}</p>
+    <img v-bind:src="firmaPngBase64" width="500" height="100" />-->
+
     <div>
-      <table border="1" cellpadding="0" width="100">
+      <table border="1" cellpadding="0" width="500">
         <tbody>
           <tr>
-            <td height="50" width="100">
-              <canvas id="cnv" name="cnv" width="100" height="50"></canvas>
+            <td height="100" width="500">
+              <canvas id="cnv" name="cnv" width="500" height="100"></canvas>
             </td>
           </tr>
         </tbody>
       </table>
       <br>
-      <canvas name="SigImg" id="SigImg" width="500" height="100"></canvas>
+      <!--<canvas name="SigImg" id="SigImg" width="500" height="100"></canvas>-->
+
+      <div>
+
+        <input id="SignBtn" name="SignBtn" type="button" value="FIRMAR" onclick="javascript:onSign()" /> <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+        <!--<button id="SignBtn" name="SignBtn" v-on:click="onSign()">Sign</button>-->
+
+        <input id="button1" name="ClearBtn" type="button" value="LIMPIAR" onclick="javascript:onClear()" /><!--&nbsp;&nbsp;&nbsp;&nbsp-->
+        <!--<button id="button1" name="ClearBtn" v-on:click="onClear()">Clear</button>-->
+        <!--<input id="button2" name="DoneBtn" type="button" value="Done" onclick="javascript:onDone()" />--><!--&nbsp;&nbsp;&nbsp;&nbsp-->
+        <button id="button2" name="DoneBtn" v-on:click="capturaFirma()">ACEPTAR</button>
+
+        <!--<textarea id="xfirmaBase64" name="xfirmaBase64" style="display:none;">HOLA TEXTAREA</textarea>-->
 
 
-      <form action="#" name=FORM1>
-        <p>
-          <input id="SignBtn" name="SignBtn" type="button" value="Sign" onclick="javascript:onSign()" /> <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
-          <!--<button id="SignBtn" name="SignBtn" v-on:click="onSign()">Sign</button>-->
+      </div>
 
-          <input id="button1" name="ClearBtn" type="button" value="Clear" onclick="javascript:onClear()" /><!--&nbsp;&nbsp;&nbsp;&nbsp-->
-          <!--<button id="button1" name="ClearBtn" v-on:click="onClear()">Clear</button>-->
 
-          <input id="button2" name="DoneBtn" type="button" value="Done" onclick="javascript:onDone()" /><!--&nbsp;&nbsp;&nbsp;&nbsp-->
-          <!--<button id="button2" name="DoneBtn" v-on:click="onDone()">Done</button>-->
-
-          <input type="hidden" name="bioSigData">
-          <input type="hidden" name="sigImgData">
-          <br>
-          <br>
-          <textarea name="sigStringData" rows="20" cols="50">SigString: </textarea>
-          <textarea name="sigImageData" rows="20" cols="50">Base64 String: </textarea>
-        </p>
-      </form>
-
-      <br /><br />
     </div>
-    <!--</div>-->
-    <!-- FOOTER -->
-    <!--<div class="modal-footer">
-    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cierra</button>
-    <button type="button" class="btn btn-primary">Guardar</button>
-  </div>-->
-    <!--</div>
-    </div>
-  </div>-->
+
   </div>
 </template>
 
 <script>
 
+
+  //const fs = require('fs');
 
   export default {
     name: 'Firma',
@@ -72,13 +52,28 @@
     data() {
       return {
         tituloPagina: 'Firma',
+        firmaBase64: 'NONE',
+        ancho: 500,
+        alto: 100,
+      }
+    },
+
+    computed: {
+      firmaPngBase64: function () {
+        return "data: image/png;base64," + this.$store.state.firmaBase64;
+      },
+      size: function () {
+        return 
+          "width: 200px, height: 75px";
+        
       }
     },
     created() {
     },
+
     mounted() {
-
-
+      //console.log('textarea=', document.DATA.firmaBase64.value);
+      console.log('\r\n\r\n\r\n 1.- ==============>>>>  la firma base64 es', this.firmaBase64);
       let scriptSigWeb = document.createElement('script');
       scriptSigWeb.setAttribute('src', 'SigWebTablet.js');
       document.head.appendChild(scriptSigWeb);
@@ -93,7 +88,7 @@
       //  SetTabletState(0, tmr);
       //});
 
-      
+
       //let link = document.createElement('link');
       //link.rel = 'stylesheet';
       //link.type = 'text/css';
@@ -113,16 +108,37 @@
       //document.head.appendChild(script3);
 
     },
+    //computed: {
+    //  firma: function () {
+    //    return this.firmaBase64;
+    //  },
+    //},
+    //watch: {
+    //  firma: function () {
+    //    this.$store.commit('setFirmaBase64', this.firmaBase64);
+    //  }
+    //},
     methods: {
 
-      getWindow: function () {
-        console.log('en GETWINDOW:', isX());
-        this.getController();
-        SigImageCallback('EJEMPLO DE BASE64....');
-      },
+      showFirma: function () {
+        //this.firmaPngBase64 = "data: image/png;base64," + this.firmaBase64;
+        console.log('****************',this.firmaPngBase64,"<<== FIRMAPNGBASE64");
+      }, 
+
       getController: function () {
         console.log('en GETcontroller:', controller());
       },
+
+      capturaFirma: function () {        
+        onDone(this.callbackOnDone);
+        
+      },
+
+      callbackOnDone: function (imgBase64) {
+
+        this.$store.commit('setFirmaBase64', imgBase64);
+        console.log('en callbackOnDone this.$store.state.setFirmaBase64=', this.$store.state.firmaBase64);
+      }
 
     }
   }

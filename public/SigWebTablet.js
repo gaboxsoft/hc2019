@@ -200,7 +200,7 @@ var SigImageB64;
 //		}
 
 
-function GetSigImageB64(callback) {
+function GetSigImageB64(callback, callbackOnDone) {
   var cvs = document.createElement('canvas');
   cvs.width = GetImageXSize();
   cvs.height = GetImageYSize();
@@ -221,6 +221,9 @@ function GetSigImageB64(callback) {
       var retstring = b64String.slice(loc + 7, b64String.length);
       if (callback) {
         callback(retstring);
+      }
+      if (callbackOnDone) {
+        callbackOnDone(retstring);
       }
     }
   }

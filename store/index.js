@@ -19,6 +19,8 @@ export const state = () => ({
   socketView: true,
   huboCambio: true,
 
+  firmaBase64:'',
+
 
   host: 'NONE',
   port: 0
@@ -106,6 +108,11 @@ export const mutations = {
   },
   setPort(state, payload) {
     state.port = payload;
+  },
+
+  setFirmaBase64(state, payload) {
+    console.log('en setFirmaBase64 payload:', payload);
+    state.firmaBase64 = payload;
   }
 };
 
