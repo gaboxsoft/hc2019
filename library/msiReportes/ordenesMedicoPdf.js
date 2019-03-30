@@ -105,14 +105,13 @@ function writeOrdenesMedicos(doc, paciente,  ordenesMedicos, pages, anchoHoja, a
     };
     altoParrafo = doc.heightOfString(text, opcionesParrafo);
 
-    
+    // Verifica si todavia alcanza el espacio restante de la hoja para imprimir
+    // si no agrega una página más
     if (doc.y + altoParrafo + interlineado + margenInf > doc.page.height) {
       let i = 1;
       while (doc.y< doc.page.height-margenInf) {
         writeLine(doc, '===='.repeat(i++));
       };
-
-     
 
       console.log(`${n} => agregando pág`);
       doc.addPage({
@@ -126,15 +125,22 @@ function writeOrdenesMedicos(doc, paciente,  ordenesMedicos, pages, anchoHoja, a
       doc.y = 0;
       row = rowIni;
     };
-    // Escribe encabezados
+
+    // Si el reglón es cero debe
+    // Escribir encabezados
     if (doc.y == 0) {
       pages[0].forEach(function (field) {
         console.log('field.name:', field.name);
         writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color, field.width);
       });
     };
+
     writeLine(doc, moment(ordenMedico.fechaOrdenes).format('YYYY-MM-DD HH:mm'), row, col, 'left', 8, 'black');
-    writeLine(doc, text, row, col + 3.0, 'justify', 8, 'black', 14.8);
+    writeLine(doc, text, row, col + 3.0, 'justify', 8, 'black', 12.8); //14.8-ancho
+
+    var dataImgDecodeFromBase64 = new Buffer.from(ordenMedico.firmaBase64, 'base64');
+    doc.image(dataImgDecodeFromBase64, pdfTools.cmToPt(col+15 ), pdfTools.cmToPt(row ), { width: 100 })
+    
     //writeLine(doc, 'Médico: '+paciente.nombreMT+' cédula: '+ paciente.cedulaMT, doc.y, col + 3.7, 'justify', 8, 'black', 14.8);
       //console.log(`${n}=>2 doc.y=`, doc.y);
       row = pdfTools.ptToCm(doc.y + interlineado);

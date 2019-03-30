@@ -1,6 +1,6 @@
 git status
 git add .
-git commit -m "v2.0.58 - implementa firmaCmp en ordenes Medico falta en pdf"
+git commit -m "v2.0.59 - implementa firmaCmp en ordenes Medico incluye  pdf"
 git push origin master
 git push heroku master
 
