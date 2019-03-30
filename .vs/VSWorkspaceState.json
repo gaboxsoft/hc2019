@@ -7,9 +7,9 @@
     "\\layouts",
     "\\library",
     "\\library\\fechas",
-    "\\pages",
-    "\\public"
+    "\\models",
+    "\\routes",
+    "\\store"
   ],
-  "SelectedNode": "\\sube.bat",
   "PreviewInSolutionExplorer": false
 }

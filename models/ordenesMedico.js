@@ -18,6 +18,9 @@ var ordenesMedicoSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Paciente'
   },
+  firmaBase64: {
+    type: String
+  },
 
 
   /////////////////////////

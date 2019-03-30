@@ -20,16 +20,23 @@
         <tr :class="{'bg-warning':om._id===$store.state.ordenesMedicoId}"
             v-model="ordenesMedicos"
             v-for="om in ordenesMedicos">
-          <td>{{momento(om.fechaOrdenesMedico).format('DD-MMM-YYYY')}}</td>
-          <td>{{momento(om.fechaOrdenesMedico).format('HH:mm')}}</td>
+          <td>{{momento(om.fechaOrdenes).format('DD-MMM-YYYY')}}</td>
+
+          <td>{{momento(om.fechaOrdenes).format('HH:mm')}}</td>
+
           <td>{{om.ordenes}}</td>
+
           <td>--{{om.usuarioSe.nombre}}--</td>
-          <td style="width:25px;">
+          <td>
+            <img v-bind:src="firma(om.firmaBase64)" width="250" height="50" />
+
+          </td>
+          <!--<td style="width:25px;">
             <b-btn btn-xs v-show="om.usuarioSe._id===$store.state.usuarioId"
                    v-on:click="seleccionar(om._id)">
               Sel
             </b-btn>
-          </td>
+          </td>-->
         </tr>
       </tbody>
     </table>
@@ -48,34 +55,35 @@
       notifyCmp
     },
     data() {
-      return {    
+      return {
         tituloPagina: 'ORDENES MEDICOS',
-        
+
         ordenesMedicos: {},
         ordenesMedico: {},
-        ordenesMedicoId:'NUEVO'
+        ordenesMedicoId: 'NUEVO'
       }
     },
 
     computed: {
       urlGetPaciente: function () {
-        return process.env.urlServer+'/paciente/' + this.$store.state.pacienteId;
+        return process.env.urlServer + '/paciente/' + this.$store.state.pacienteId;
       },
       urlGetOrdenesMedico: function () {
         return process.env.urlServer + '/OrdenesMedico/' + this.$store.state.ordenesMedicoId;
       },
       urlGetOrdenesMedicos: function () {
-        return process.env.urlServer + '/OrdenesMedicos/' + this.$store.state.pacienteId; 
+        return process.env.urlServer + '/OrdenesMedicos/' + this.$store.state.pacienteId;
       },
       urlOrdenesMedicoPdf: function () {
-        return process.env.urlServer + '/msi13/' ; 
+        return process.env.urlServer + '/msi13/';
       },
       getHuboCambio: function () {
         return this.$store.state.huboCambio;
       },
       getToken: function () {
         return this.$store.state.token;
-      }
+      },
+
     },
     watch: {
       getHuboCambio: function () {
@@ -87,10 +95,16 @@
     },
 
     methods: {
-      momento: function (date) {
-          return moment(date);
+      firma: function (firmaBase64) {
+        if (firmaBase64) {
+          return "data: image/png;base64," + firmaBase64
+        };
+        return "no-image.jpg"
       },
-      agregar: function () {        
+      momento: function (fecha) {
+        return moment(fecha);
+      },
+      agregar: function () {
         this.$store.commit('setOrdenesMedicoId', 'NUEVO');
 
       },
@@ -124,9 +138,11 @@
             }
             else {
               this.ordenesMedicos = response.data.ordenesMedicos;
-              for (var i = 0; i < this.ordenesMedicos.length; i++) {
-                this.ordenesMedicos[i].fecha = moment(this.ordenesMedicos[i].fechaOrdenesMedico).format('ddd DD MMM YYYY HH:mm:ss');
-              }
+              //for (var i = 0; i < this.ordenesMedicos.length; i++) {
+              //  //this.ordenesMedicos[i].fecha = moment(this.ordenesMedicos[i].fechaOrdenesMedico).format('ddd DD MMM YYYY HH:mm:ss');
+              //  this.ordenesMedicos[i].fecha = moment(this.ordenesMedicos[i].fechaOrdenesMedico);
+              //}
+              console.log(this.ordenesMedicos);
             }
           },
             (error) => {
@@ -134,7 +150,7 @@
               this.ordenesMedicos = {};
             });
       },
-    
+
       imprimir: function () {
         axios.get(this.urlOrdenesMedicoPdf + this.$store.state.pacienteId, {
           headers: {
@@ -144,7 +160,7 @@
           }
         })
           .then((response) => {
-            this.$refs.notify.showNotify("CLICK AQUÍ PARA VER LAS ORDENES MEDICAS", 4, response.data.pdfFile,true);
+            this.$refs.notify.showNotify("CLICK AQUÍ PARA VER LAS ORDENES MEDICAS", 4, response.data.pdfFile, true);
           },
             (error) => {
               this.err = error.response.data.error;

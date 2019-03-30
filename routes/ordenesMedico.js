@@ -21,15 +21,28 @@ app.get('/OrdenesMedicos/:id', verificaToken, function (req, res) {
     .populate('usuarioSe', 'nombre cedula especialidad institucion')
     .limit(limite)
     .skip(desde)
-    .sort({ fechaReceta: 'desc' })
+    .sort({ fechaOrdenes: 'desc' })
     .exec((err, ordenesMedicosBD) => {
       if (err) {
         return res.status(400).
           json({ ok: false, error: err });
       };
       if (!ordenesMedicosBD) {
+
         return res.json({ ok: true, conteo: 0, ordenesMedicos: {}, mensaje: 'No hay ordenes de Medicos.' });
       };
+      //for (var i in ordenesMedicosBD) {
+      //  //console.log('firma: ', ordenesMedicosBD[i]);
+      //  if (ordenesMedicosBD[i].ordenes === 'F') {
+      //    console.log('escribiendo firma: ', ordenesMedicosBD[i].ordenes);
+      //    var dataImgDecodeFromBase64 = new Buffer.from(ordenesMedicosBD[i].firmaBase64, 'base64');
+      //    require('fs').writeFile('firmita.png', dataImgDecodeFromBase64, (err) => {
+      //      if (err) {
+      //        console.log('\r\n\r\n====>> error al escribir archivo: ', err);
+      //      }
+      //    });
+      //  }
+      //}
       return res.json({ ok: true, conteo: ordenesMedicosBD.length, ordenesMedicos: ordenesMedicosBD });
     });
   //});
@@ -64,18 +77,19 @@ app.post('/OrdenesMedico/:id', [verificaToken, rolD], function (req, res) {
   let id = req.params.id;
 
   let body = req.body;
-  console.log('body antes de guardar ordenesMedico:', body);
+  //console.log('body antes de guardar ordenesMedico:', body);
   let ordenesMedico = new OrdenesMedico();
   ordenesMedico.fechaOrdenes = body.fechaOrdenes;
   ordenesMedico.ordenes = body.ordenes;
   ordenesMedico.paciente = id;
+  ordenesMedico.firmaBase64 = body.firmaBase64;
 
   // que doctor lo modificó
   ordenesMedico.usuarioSe = req.usuario._id;
 
   ordenesMedico.fechaModificacionSe = new Date();
   ordenesMedico.fechaCreacionSe = new Date();
-  console.log('ordenesMedico antes de guardar ordenesMedico:', ordenesMedico);
+  //console.log('ordenesMedico antes de guardar ordenesMedico:', ordenesMedico);
   ordenesMedico.save((err, ordenesMedicoBD) => {
     if (err) {
       res.status(400).json({ ok: false, error: err });

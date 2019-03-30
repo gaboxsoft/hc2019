@@ -1,7 +1,5 @@
 var tmr;
 
-var imgBase64 = 'NONE';
-
 
 function controller() {
   return 'en controller....';
@@ -30,7 +28,7 @@ function onClear() {
 
 function onDone(callbackOnDone) {
   if (NumberOfTabletPoints() == 0) {
-    alert("Please sign before continuing");
+    alert("POR FAVOR FIRME PARA PODER CONTINUAR...");
   }
   else {
     SetTabletState(0, tmr);

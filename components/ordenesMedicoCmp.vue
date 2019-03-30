@@ -73,10 +73,18 @@
       },
       getToken: function () {
         return this.$store.state.token;
+      },
+
+      seFirmo: function () {
+        return !(this.$store.state.firmaBase64==='');
       }
 
     },
     watch: {
+      seFirmo: function () {
+        console.log(' EN ORDENES MEDICOS-> '+(this.seFirmo ? 'FIRMADO!' : "NO FIRMADO"));
+        this.guardar();
+      },
       getOrdenesMedicoId: function () {
         this.getCurrentPaciente(this.getToken);
         if (!this.getOrdenesMedicoId || this.getOrdenesMedicoId === 'NUEVO' || this.getOrdenesMedicoId === 'NONE' || this.getOrdenesMedicoId === '') {
@@ -109,6 +117,7 @@
         this.ordenesMedico._id = 'NUEVO';
         this.ordenesMedico.fechaOrdenes = moment(this.getFechaHora()).format('YYYY-MM-DDTHH:mm:ss');
         this.ordenesMedico.ordenes = '';
+        this.getOrdenesMedico.firmaBase64 = '';
         console.log('ORDENES INICIALIZADA', this.ordenesMedico);
 
       },
@@ -121,6 +130,7 @@
           .then((response) => {
             this.ordenesMedico = response.data.ordenesMedico;
             this.ordenesMedico.fechaOrdenes = moment(this.ordenesMedico.fechaOrdenes).format('YYYY-MM-DDTHH:mm:ss');
+
 
           },
             (error) => {
@@ -142,14 +152,18 @@
             });
       },
       guardar: function () {
-        console.log('THIS.ordenesMedico', this.ordenesMedico);
+        //console.log('THIS.ordenesMedico', this.ordenesMedico);
 
         if (this.ordenesMedico.ordenes.trim() === '') {
           this.$refs.notify.showNotify("ESCRIBE ALGO....", .25);
           return;
         }
-        console.log('this.$store.state.ordenesMedicoId', this.$store.state.ordenesMedicoId);
-        console.log('url-->', this.urlApiOrdenesMedico + this.$store.state.pacienteId);
+        if (this.$store.state.firmaBase64==='') {
+          return alert("PARA CONTINUAR, POR FAVOR FIRME LA NOTA....");          
+        }
+        console.log('this.$store.state.firmaBase64-->', this.$store.state.firmaBase64);
+        //console.log('this.$store.state.ordenesMedicoId', this.$store.state.ordenesMedicoId);
+        //console.log('url-->', this.urlApiOrdenesMedico + this.$store.state.pacienteId);
 
         if (this.$store.state.ordenesMedicoId === 'NUEVO') {
           const req = {
@@ -161,7 +175,8 @@
             data: {
               fechaOrdenes: moment(this.ordenesMedico.fechaOrdenes).format(),
               ordenes: this.ordenesMedico.ordenes.trim(),
-              paciente: this.$store.state.PacienteId
+              paciente: this.$store.state.PacienteId,
+              firmaBase64: this.$store.state.firmaBase64
             }
           };
 
@@ -171,6 +186,7 @@
               this.InicializaOrdenesMedico()
               this.$store.commit('setOrdenesMedicoId', 'NUEVO');
               this.$store.commit('setHuboCambio');
+              this.$store.commit('setFirmaBase64', '');
             })
             .catch(err => {
               console.log('err', err);
@@ -193,7 +209,7 @@
             .then((response) => {
               this.$store.commit('setHuboCambio');
               this.$store.commit('setOrdenesMedicoId', this.ordenesMedico._id);
-
+              this.$store.commit('setFirmaBase64', '');
             })
             .catch(err => {
               this.$refs.notify.showNotify("ERROR AL GUARDAR " + err, 5);

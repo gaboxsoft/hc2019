@@ -17,17 +17,20 @@
         </tbody>
       </table>
       <br>
-      <!--<canvas name="SigImg" id="SigImg" width="500" height="100"></canvas>-->
 
+      <!--<canvas name="SigImg" id="SigImg" width="500" height="100"></canvas>-->
+      <!-- v-show="seFirmo" -->
       <div>
 
-        <input id="SignBtn" name="SignBtn" type="button" value="FIRMAR" onclick="javascript:onSign()" /> <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
-        <!--<button id="SignBtn" name="SignBtn" v-on:click="onSign()">Sign</button>-->
+        <!--<input id="SignBtn" name="SignBtn" type="button" value="FIRMAR" onclick="javascript:onSign()" />--> <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+        <button id="SignBtn" name="SignBtn" v-on:click="iniciarFirma()">INICIAR FIRMA</button>
 
-        <input id="button1" name="ClearBtn" type="button" value="LIMPIAR" onclick="javascript:onClear()" /><!--&nbsp;&nbsp;&nbsp;&nbsp-->
-        <!--<button id="button1" name="ClearBtn" v-on:click="onClear()">Clear</button>-->
+        <!--<input id="button1" name="ClearBtn" type="button" value="LIMPIAR" onclick="javascript:onClear()" />--><!--&nbsp;&nbsp;&nbsp;&nbsp-->
+<!-- Se dehabilitó este botón por que al iniciar firma ya incluye limpiar firma -->
+        <!--<button id="button1" name="ClearBtn" v-on:click="limpiarFirma()">LIMPIAR</button>-->
+
         <!--<input id="button2" name="DoneBtn" type="button" value="Done" onclick="javascript:onDone()" />--><!--&nbsp;&nbsp;&nbsp;&nbsp-->
-        <button id="button2" name="DoneBtn" v-on:click="capturaFirma()">ACEPTAR</button>
+        <button id="button2" name="DoneBtn" v-on:click="aceptarFirma()">ACEPTAR FIRMA</button>
 
         <!--<textarea id="xfirmaBase64" name="xfirmaBase64" style="display:none;">HOLA TEXTAREA</textarea>-->
 
@@ -43,8 +46,6 @@
 <script>
 
 
-  //const fs = require('fs');
-
   export default {
     name: 'Firma',
     components: {
@@ -52,7 +53,7 @@
     data() {
       return {
         tituloPagina: 'Firma',
-        firmaBase64: 'NONE',
+        firmaBase64: '',
         ancho: 500,
         alto: 100,
       }
@@ -62,13 +63,19 @@
       firmaPngBase64: function () {
         return "data: image/png;base64," + this.$store.state.firmaBase64;
       },
-      size: function () {
-        return 
-          "width: 200px, height: 75px";
-        
-      }
+      seFirmo: function () {
+        return !(this.$store.state.firmaBase64 === '');
+      },
     },
+
+    watch: {
+      seFirmo: function () {
+          console.log((this.seFirmo ? 'FIRMADO!' : "NO FIRMADO"));
+      },
+    },
+
     created() {
+      this.$store.commit('setFirmaBase64', '');
     },
 
     mounted() {
@@ -108,16 +115,7 @@
       //document.head.appendChild(script3);
 
     },
-    //computed: {
-    //  firma: function () {
-    //    return this.firmaBase64;
-    //  },
-    //},
-    //watch: {
-    //  firma: function () {
-    //    this.$store.commit('setFirmaBase64', this.firmaBase64);
-    //  }
-    //},
+    
     methods: {
 
       showFirma: function () {
@@ -129,17 +127,32 @@
         console.log('en GETcontroller:', controller());
       },
 
-      capturaFirma: function () {        
+      iniciarFirma: function () {
+        this.limpiarFirma();
+        onSign();
+      },
+
+      limpiarFirma: function () {
+        this.firmaBase64 = '';
+        this.$store.commit('setFirmaBase64', '');
+        onClear();
+      },
+
+      aceptarFirma: function () {        
         onDone(this.callbackOnDone);
         
+        onClear();
+        onSign();
+        
+
       },
 
       callbackOnDone: function (imgBase64) {
 
         this.$store.commit('setFirmaBase64', imgBase64);
         console.log('en callbackOnDone this.$store.state.setFirmaBase64=', this.$store.state.firmaBase64);
+        
       }
-
     }
   }
 </script>
