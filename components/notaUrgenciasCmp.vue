@@ -3,10 +3,9 @@
   <div>
     <!--<h1 class=" text-primary">{{tituloPagina}}</h1>-->
     <notifyCmp ref="notify" />
-    <b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn>
-    <b-btn class="btn bg-warning btn-xs" v-on:click="imprimir(notaUrgencias._id)">
-      Ver
-    </b-btn>
+    <firmaCmp id="firma" v-show="estaFirmando" @firmaCapturada="firmaBase64=$event" />
+    <b-btn class="bg-success button-right" v-show="estaFirmando!=true" v-on:click="firmar">GUARDAR</b-btn>
+
     <form action="#">
       <table class="table table-sm table-info ">
         <tbody>
@@ -41,12 +40,10 @@
               <br />
               Peso:
               <input class="input-text col-md-3" type="text" v-model="notaUrgencias.peso" name="peso">
-
               Talla:
               <input class="input-text col-md-3" type="text" v-model="notaUrgencias.talla" name="talla">
             </td>
           </tr>
-
           <tr>
             <td>Antecedentes importantes:</td>
             <td>
@@ -64,29 +61,31 @@
             <td>
               <textarea class="input-text" v-model="notaUrgencias.indicaciones" name="indicaciones" rows="5" cols="50"></textarea>
             </td>
-          </tr>
+          </tr>        
         </tbody>
       </table>
-
     </form>
-    <b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn>
+    <!--<b-btn class="bg-success button-right" v-show="estaFirmando!=true" v-on:click="firmar">FIRMAR</b-btn>-->
   </div>
 </template>
 <script>
   import axios from 'axios';
   import notifyCmp from '~/components/notifyCmp';
+  import firmaCmp from '~/components/firmaCmp';
   const moment = require('moment');
   //require('moment/locale/es');  // without this line it didn't work
   //moment.locale('es')
   export default {
     name: 'notaUrgenciasCmp',
     components: {
-      notifyCmp
+      notifyCmp,
+      firmaCmp
     },
     data() {
       return {
         tituloPagina: 'NOTA URGENCIAS',
-
+        estaFirmando: false,
+        firmaBase64:'',
         paciente: {},
         notaUrgencias: {},
         notaUrgenciasNuevo: {
@@ -101,7 +100,8 @@
           talla: '',
           antecedentes: '',
           resumenClinico: '',
-          indicaciones: ''
+          indicaciones: '',
+          firmaBase64:''
         }
       }
     },
@@ -109,38 +109,45 @@
     computed: {
       urlApiNotaUrgencias: function () {
         return process.env.urlServer + '/NotaUrgencias/';
-        //return 'http://localhost:3000/NotaUrgencias/';
       },
       urlGetPaciente: function () {
         return process.env.urlServer + '/paciente/' + this.$store.state.pacienteId;
-        //return 'http://localhost:3000/paciente/' + this.$store.state.pacienteId;
       },
       urlGetNotaUrgencias: function () {
         return process.env.urlServer + '/NotaUrgencias/' + this.$store.state.notaUrgenciasId;
-        //return 'http://localhost:3000/NotaUrgencias/' + this.$store.notaUrgenciasId;
       },
       urlNotaUrgenciasPdf: function () {
         return process.env.urlServer + '/msi12/' + this.$store.state.pacienteId;
-        //return 'http://localhost:3000/msi12/' + this.$store.state.pacienteId;
       },
       getNotaUrgenciasId: function () {
         return this.$store.state.notaUrgenciasId;
       },
       getToken: function () {
         return this.$store.state.token;
+      },
+      seFirmo: function () {
+        return !(this.firmaBase64 === '');
       }
     },
+
+    
+    ////////
     watch: {
+      seFirmo: function () {
+        //console.log(' --- EN nota urgencias-> ' + (!(this.firmaBase64 === '') ? 'FIRMADO!' : "NO FIRMADO"));
+        //console.log(' ---- EN nota urgencias-> ' + this.firmaBase64);
+        this.guardar();
+      },
       getNotaUrgenciasId: function () {
-        console.log('notasUrgenciasCmp->Watch->getNotaUrgenciasId->', this.getNotaUrgenciasId)
+        //console.log('notasUrgenciasCmp->Watch->getNotaUrgenciasId->', this.getNotaUrgenciasId)
 
         this.getCurrentPaciente(this.getToken);
         if (!this.getNotaUrgenciasId || this.getNotaUrgenciasId === 'NUEVO' || this.getNotaUrgenciasId === 'NONE') {
-          console.log('AGREGANDO NUEVA NOTA DE URGENCIAS...2');
+          //console.log('AGREGANDO NUEVA NOTA DE URGENCIAS...2');
           this.notaUrgencias = this.inicializaNotaUrgencias();
         }
         else {
-          console.log('notasUrgenciasCmp->created()->getNotaUrgenciasId->', this.getNotaUrgenciasId)
+          //console.log('notasUrgenciasCmp->created()->getNotaUrgenciasId->', this.getNotaUrgenciasId)
           this.getNotaUrgencias();
         }
 
@@ -150,21 +157,30 @@
 
       this.getCurrentPaciente(this.getToken);
       if (!this.getNotaUrgenciasId || this.getNotaUrgenciasId === 'NUEVO' || this.getNotaUrgenciasId === 'NONE') {
-        console.log('AGREGANDO NUEVA NOTA DE URGENCIAS...1');
+        //console.log('AGREGANDO NUEVA NOTA DE URGENCIAS...1');
         this.$store.commit('setNotaUrgenciasId', 'NUEVO');
         this.notaUrgencias = this.inicializaNotaUrgencias();
       }
       else {
-        console.log('notasUrgenciasCmp->created()->getNotaUrgenciasId->', this.getNotaUrgenciasId)
+        //console.log('notasUrgenciasCmp->created()->getNotaUrgenciasId->', this.getNotaUrgenciasId)
         this.getNotaUrgencias();
       }
       //console.log('EN nota urgencias.Created, Paciente= ', this.Paciente);
     },
 
     methods: {
+      firmar: function () {
+        this.estaFirmando = true;
+        
+      },
+      getFechaHora: function () {
+        axios.get(process.env.urlServer + '/fechaHora', { headers: { token: this.getToken } })
+          .then((response) => { return response.data.fechaHora; },
+            (error) => { this.err = error.response.data.error; return new Date(); });
+      },
       inicializaNotaUrgencias: function () {
         return {
-          fechaNota: moment().format('YYYY-MM-DDTHH:mm'), //(new Date().toISOString()).split('.')[0],
+          fechaNota: moment(this.getFechaHora()).format('YYYY-MM-DDTHH:mm'),
           seguro: '',
           diagnosticoEgreso: '',
           FC: '',
@@ -175,15 +191,16 @@
           talla: '',
           antecedentes: '',
           resumenClinico: '',
-          indicaciones: ''
+          indicaciones: '',
+          firmaBase64: ''
         };
       },
       imprimir: function (notaUrgenciasId) {
         if (notaUrgenciasId == '') {
           return;
         }
-        console.log('aquí en imprimir NU...', process.env.urlServer + '/msi12/' + this.$store.state.pacienteId);
-        console.log('------>>   aquí en imprimir NU->notaUrgenciasId: ', notaUrgenciasId);
+        //console.log('aquí en imprimir NU...', process.env.urlServer + '/msi12/' + this.$store.state.pacienteId);
+        //console.log('------>>   aquí en imprimir NU->notaUrgenciasId: ', notaUrgenciasId);
         //this.seleccionar(notaUrgenciasId);
         axios.get(this.urlNotaUrgenciasPdf, {
           headers: {
@@ -248,14 +265,17 @@
             });
       },
       guardar: function () {
-
+        
         console.log('1 En guardar NU-- url---->>>  ', this.urlApiNotaUrgencias + this.$store.state.pacienteId);
         this.token = this.getToken;
         this.notaUrgencias.fechaNota = this.notaUrgencias.fechaNota.split('.')[0];
         //console.log('2 En guardar NU-- token---->>>  ', this.token);
         console.log('2.1.- fecha de notaUrgencia-> ', this.notaUrgencias.fechaNota)
         console.log('2.2.- nuevo->notaUrgenciasId  ', this.$store.state.notaUrgenciasId);
-
+        if (this.notaUrgencias.diagnosticoEgreso.trim() === '') {
+          this.$refs.notify.showNotify("ESCRIBE ALGO....", .25);
+          return;
+        }
 
         if (this.$store.state.notaUrgenciasId === 'NUEVO') {
           console.log('agregando nueva nota urgencias...', this.notaUrgencias);
@@ -278,7 +298,8 @@
               talla: this.notaUrgencias.talla,
               antecedentesImportancia: this.notaUrgencias.antecedentesImportancia,
               resumenClinico: this.notaUrgencias.resumenClinico,
-              indicaciones: this.notaUrgencias.indicaciones
+              indicaciones: this.notaUrgencias.indicaciones,
+              firmaBase64:this.firmaBase64
             }
           };
 
@@ -294,6 +315,7 @@
               //this.notaUrgencias = response.data.notaUrgencias;
               this.$store.commit('setNotaUrgenciasId', this.notaUrgencias._id);
               this.$store.commit('setSocketNotasUrgencias');
+              this.estaFirmando = false;
 
             })
             .catch(err => {
@@ -321,7 +343,8 @@
               talla: this.notaUrgencias.talla,
               antecedentesImportancia: this.notaUrgencias.antecedentesImportancia,
               resumenClinico: this.notaUrgencias.resumenClinico,
-              indicaciones: this.notaUrgencias.indicaciones
+              indicaciones: this.notaUrgencias.indicaciones,
+              firmaBase64: this.firmaBase64
             }
           };
           axios(req)
@@ -330,6 +353,7 @@
               this.$refs.notify.showNotify("DOCUMENTO GUARDADO", 2);
               this.$store.commit('setSocketNotasUrgencias');
               this.$store.commit('setNotaUrgenciasId', this.notaUrgencias._id);
+              this.estaFirmando = false;
 
             })
             .catch(err => {

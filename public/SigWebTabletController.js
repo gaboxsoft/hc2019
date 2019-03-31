@@ -6,6 +6,7 @@ function controller() {
 }
 
 function onSign() {
+  //console.log('2.-OnSig....');
   var ctx = document.getElementById('cnv').getContext('2d');
   SetDisplayXSize(500);
   SetDisplayYSize(100);
@@ -23,10 +24,12 @@ function onSign() {
 }
 
 function onClear() {
+  //console.log('2.- OnClear....');
   ClearTablet();
 }
 
 function onDone(callbackOnDone) {
+  //console.log('2.- onDone....');
   if (NumberOfTabletPoints() == 0) {
     alert("POR FAVOR FIRME PARA PODER CONTINUAR...");
   }
@@ -44,8 +47,6 @@ function onDone(callbackOnDone) {
     SetImageYSize(100);
     SetImagePenWidth(5);
     GetSigImageB64(SigImageCallback, callbackOnDone);
-    
-     
   }
 }
 

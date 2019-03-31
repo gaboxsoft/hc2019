@@ -136,6 +136,7 @@ function writeEvolucion(doc, paciente, evoluciones, pages, anchoHoja, altoHoja, 
     //console.log(`${n}=>1.1 heightOfString=`, altoParrafo);
     if (doc.y + altoParrafo + interlineado + margenInf > doc.page.height) {
       let i = 1;
+
       while (doc.y< doc.page.height-margenInf) {
         writeLine(doc, '===='.repeat(i++));
       };
@@ -162,7 +163,12 @@ function writeEvolucion(doc, paciente, evoluciones, pages, anchoHoja, altoHoja, 
       });
     };
     writeLine(doc, moment(e.fecha).format('YYYY-MM-DD HH:mm'), row, col, 'left', 8, 'black');
-    writeLine(doc, text, row, col + 3.7, 'justify', 8, 'black', 14.8);
+    writeLine(doc, text, row, col + 3.7, 'justify', 8, 'black', 14);
+    if (e.firmaBase64) {
+      var dataImgDecodeFromBase64 = new Buffer.from(e.firmaBase64, 'base64');
+      console.log('row=', row);
+      doc.image(dataImgDecodeFromBase64, pdfTools.cmToPt(col + 18), pdfTools.cmToPt(row), { width: 75 })
+    }
     //writeLine(doc, 'Médico: '+paciente.nombreMT+' cédula: '+ paciente.cedulaMT, doc.y, col + 3.7, 'justify', 8, 'black', 14.8);
       //console.log(`${n}=>2 doc.y=`, doc.y);
       row = pdfTools.ptToCm(doc.y + interlineado);

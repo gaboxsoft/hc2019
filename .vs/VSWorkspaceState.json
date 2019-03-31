@@ -1,15 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\api",
     "\\assets",
     "\\components",
     "\\config",
-    "\\layouts",
     "\\library",
-    "\\library\\fechas",
+    "\\library\\msiReportes",
     "\\models",
-    "\\routes",
-    "\\store"
+    "\\pages",
+    "\\public"
   ],
+  "SelectedNode": "\\components\\historiaClinicaCmp.vue",
   "PreviewInSolutionExplorer": false
 }

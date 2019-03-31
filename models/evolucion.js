@@ -21,6 +21,9 @@ var evolucionSchema = new Schema({
     ref: 'Paciente'
    },
 
+  firmaBase64: {
+    type: String,
+  },
    // Sello
   fechaCreacionSe: {
     type: Date,

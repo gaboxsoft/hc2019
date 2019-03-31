@@ -68,8 +68,12 @@ app.get('/notaUrgencias/:id', function (req, res) {
 
 app.post('/notaUrgencias/:id', [verificaToken, rolADE], function (req, res) {
 
+
+
   let id = req.params.id;
   let body = req.body;
+  //console.log('en POST/notaUrgencias/body:', body);
+
   let notaUrgencias = new NotaUrgencias();
   notaUrgencias.fechaNota = body.fechaNota;
   notaUrgencias.seguro = body.seguro;
@@ -88,6 +92,7 @@ app.post('/notaUrgencias/:id', [verificaToken, rolADE], function (req, res) {
   notaUrgencias.usuarioSe = req.usuario._id;
   notaUrgencias.fechaModificacionSe = new Date();
   notaUrgencias.fechaCreacionSe = new Date();
+  notaUrgencias.firmaBase64 = body.firmaBase64;
 
   notaUrgencias.save((err, notaUrgenciasBD) => {
     if (err) {

@@ -25,15 +25,19 @@
                   MÉDICO
                   <b-btn class="bg-success button-right" v-on:click="imprimir">IMPRIMIR</b-btn>
                 </td>
+                <td>FIRMA</td>
               </tr>
               <tr :class="{'bg-warning':e._id===$store.state.evolucionId}"
                   v-model="evoluciones"
                   v-for="e in evoluciones">
-                <!--<td>{{e._id}}</td>-->
+                <!--<td>{{e._id}}</td>-->                
                 <td>{{momento(e.fecha).format('DD-MMM-YYYY')}}</td>
                 <td>{{momento(e.fecha).format('HH:mm')}}</td>
                 <td>{{e.descripcion}}</td>
                 <td>--{{e.usuarioSe.nombre}}--</td>
+                <td>
+                  <img v-bind:src="firma(e.firmaBase64)" width="100" height="20" />
+                </td>
                 <td style="width:25px;">
                   <!--<b-btn btn-xs
            v-on:click="imprimir(e._id)">
@@ -125,6 +129,12 @@
     },
 
     methods: {
+      firma: function (firmaBase64) {
+        if (firmaBase64) {
+          return "data: image/png;base64," + firmaBase64
+        };
+        return "no-image.jpg"
+      },
       momento: function (date) {
           return moment(date);
       },
@@ -215,41 +225,4 @@
   };
 
 </script>
-
-
-
-
-<!--<style scoped>
-  .main-container {
-    /*min-height: 100vh;*/
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: center;
-    text-align: center;*/
-    padding-top: 90px;
-  }
-
-  /*.title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-      'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
-
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
-  }*/
-</style>-->
-
 

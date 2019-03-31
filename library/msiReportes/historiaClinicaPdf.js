@@ -59,7 +59,10 @@ const historiaClinicaPdf = (paciente) => {
     pages[0].forEach(function (field) {
       writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color, field.width);
     });
- 
+  if (paciente.firmaBase64HC) {
+    var dataImgDecodeFromBase64 = new Buffer.from(paciente.firmaBase64HC, 'base64');
+    doc.image(dataImgDecodeFromBase64, 275, doc.y + 20, { width: 300 })
+  }
 
   doc.addPage({size: 'letter',
     layout: 'portrait',
@@ -76,7 +79,10 @@ const historiaClinicaPdf = (paciente) => {
   });
 
 
-  
+  if (paciente.firmaBase64HC) {
+    var dataImgDecodeFromBase64 = new Buffer.from(paciente.firmaBase64HC, 'base64');
+    doc.image(dataImgDecodeFromBase64, 275, doc.y + 20, { width: 300 })
+  }
 
   
   // Stream contents to a file

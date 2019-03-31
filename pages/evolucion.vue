@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div >
     <div>
       <h2 class="text-primary text-center">{{tituloPagina}}</h2>
     </div>

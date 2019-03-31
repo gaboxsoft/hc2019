@@ -12,7 +12,8 @@ let { verificaToken, verificaAdminRol, rolD } = require('../middleware/autentica
 
 app.get('/listausuarios', function (req, res) {
 
-  //res.json({ ok: true, mensaje: 'hola desde node Lista Usuarios' });
+  //return res.json({ ok: true, usuarios: {}, mensaje: 'hola desde node Lista Usuarios' });
+
   let limite = Number(req.query.limite || 0);
   let desde = Number(req.query.desde || 0);
 
@@ -105,7 +106,7 @@ app.get('/usuario/:id', verificaToken, function (req, res) {
     };
     if (!usuarioBD) {
       //console.log('3.- no hay usuarioBD ')
-      return res.status(401).json({ ok: false, error: `No existe usuario.` });
+      return res.status(401).json({ ok: false, error: `No existe usuario. (GET/usuario/:id).` });
     } else {
       //console.log('3.- encontré usuarioBD:', usuarioBD);
       //console.log('4.- usuarioBD: ', usuarioBD)
@@ -180,7 +181,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdminRol], function (req, res) {
     if (!usuarioBD) {
       //console.log('no lo encontré:', usuarioBD)
       return res.status(401).
-        json({ ok: false, error: `No existe usuario.` });;
+        json({ ok: false, error: `No existe usuario. (PUT/usuario/:id)` });;
     };
     //console.log('si lo actualizé:', usuarioBD)
     return res.json({ ok: true, usuario: usuarioBD });

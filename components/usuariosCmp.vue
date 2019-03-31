@@ -25,7 +25,7 @@
           <td>
             <span><b-btn class="bg-success" btn-xs v-on:click="cambiar(u._id)">*</b-btn></span>
             <span><b-btn class="bg-success" btn-xs v-on:click="agregar">+</b-btn></span>
-            <span><b-btn class="bg-success" btn-xs v-on:click="borrar">-</b-btn></span>
+            <!--<span><b-btn class="bg-success" btn-xs v-on:click="borrar">-</b-btn></span>-->
 
           </td>
         </tr>
@@ -93,7 +93,7 @@
 
 
     methods: {
-      agregar: function () { },
+      //agregar: function () { },
       borrar: function () { },
       //cambiar: function () { },
 
@@ -110,7 +110,7 @@
       },
       agregar: function () {
         this.$store.commit('setEditingUsuarioId', 'NONE')
-        console.log('usuariosCmp.agregar()->', editingUsuarioId);
+        console.log('usuariosCmp.agregar()->', this.$store.state.editingUsuarioId);
         this.$refs.linkToDatosGenerales.click();
         //this.$router.push({ name: 'index' })
         //this.$router.push({ name: 'hojaInicialExpediente' })

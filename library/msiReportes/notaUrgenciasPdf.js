@@ -39,7 +39,7 @@ const notaUrgenciasPdf = (paciente, notaUrgencias) => {
   const sizePaperLetter = '210.02x297.01';
   const centroMedico = 'Médica San Isidro';
   //
-  console.log('\r\n\r\n\r\n paciente: ', paciente,'<<<<--------\r\n\r\n\r\n');
+  //console.log('\r\n\r\n\r\n paciente: ', paciente,'<<<<--------\r\n\r\n\r\n');
 
   let imgFormato = path.resolve(__dirname, '../../msiformatos/msi12.jpg');
 
@@ -59,7 +59,13 @@ const notaUrgenciasPdf = (paciente, notaUrgencias) => {
     pages[0].forEach(function (field) {
       writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color);
     });
- 
+  if (notaUrgencias.firmaBase64) {
+    
+    var dataImgDecodeFromBase64 = new Buffer.from(notaUrgencias.firmaBase64 , 'base64');
+    doc.image(dataImgDecodeFromBase64, 275, doc.y + 20, { width: 300 })
+  }
+  //doc.image(dataImgDecodeFromBase64, pdfTools.cmToPt(col + 15), pdfTools.cmToPt(row), { width: 75 })
+
 
   
   

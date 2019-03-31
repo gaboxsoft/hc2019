@@ -22,14 +22,14 @@
             </td>
             <td>
               <!--<textarea class="input-text textarea-size" type="text" v-model="ordenesMedico.ordenes" name="ordenes" rows="10" cols="50"></textarea>-->
-              <firmaCmp />
+              <firmaCmp @firmaCapturada="firmaBase64=$event" />
               <!--<span><b-btn class="bg-success button-right" v-on:click="guardar">GUARDAR</b-btn></span>-->
             </td>
           </tr>
 
         </tbody>
       </table>
-      
+
     </form>
   </div>
 </template>
@@ -49,7 +49,7 @@
     data() {
       return {
         tituloPagina: 'ORDENES',
-
+        firmaBase64: '',
         paciente: {},
         ordenesMedico: {},
       }
@@ -76,13 +76,13 @@
       },
 
       seFirmo: function () {
-        return !(this.$store.state.firmaBase64==='');
+        return !(this.firmaBase64 === '');
       }
 
     },
     watch: {
       seFirmo: function () {
-        console.log(' EN ORDENES MEDICOS-> '+(this.seFirmo ? 'FIRMADO!' : "NO FIRMADO"));
+        console.log(' EN ORDENES MEDICOS-> ' + (!(this.firmaBase64 === '') ? 'FIRMADO!' : "NO FIRMADO"));
         this.guardar();
       },
       getOrdenesMedicoId: function () {
@@ -155,13 +155,15 @@
         //console.log('THIS.ordenesMedico', this.ordenesMedico);
 
         if (this.ordenesMedico.ordenes.trim() === '') {
-          this.$refs.notify.showNotify("ESCRIBE ALGO....", .25);
+          this.$refs.notify.showNotify("ESCRIBE ALGO....[" + this.ordenesMedico.ordenes.trim() + ']-[' + this.$store.state.firmaBase64.trim(), .25);
           return;
         }
-        if (this.$store.state.firmaBase64==='') {
-          return alert("PARA CONTINUAR, POR FAVOR FIRME LA NOTA....");          
+        //if (this.$store.state.firmaBase64 === '') {
+        if (this.firmaBase64 === '') {
+          return this.$refs.notify.showNotify('PARA CONTINUAR, POR FAVOR FIRME LA NOTA....', 2);
+          return alert("PARA CONTINUAR, POR FAVOR FIRME LA NOTA....");
         }
-        console.log('this.$store.state.firmaBase64-->', this.$store.state.firmaBase64);
+        //console.log('this.$store.state.firmaBase64-->', this.$store.state.firmaBase64);
         //console.log('this.$store.state.ordenesMedicoId', this.$store.state.ordenesMedicoId);
         //console.log('url-->', this.urlApiOrdenesMedico + this.$store.state.pacienteId);
 
@@ -176,7 +178,8 @@
               fechaOrdenes: moment(this.ordenesMedico.fechaOrdenes).format(),
               ordenes: this.ordenesMedico.ordenes.trim(),
               paciente: this.$store.state.PacienteId,
-              firmaBase64: this.$store.state.firmaBase64
+              //firmaBase64: this.$store.state.firmaBase64
+              firmaBase64: this.firmaBase64
             }
           };
 
@@ -186,7 +189,9 @@
               this.InicializaOrdenesMedico()
               this.$store.commit('setOrdenesMedicoId', 'NUEVO');
               this.$store.commit('setHuboCambio');
-              this.$store.commit('setFirmaBase64', '');
+              this.firmaBase64 = '';
+              //this.$store.commit('setFirmaBase64', '');
+              this.$refs.notify.showNotify("firma guardada!!!! ", 2);
             })
             .catch(err => {
               console.log('err', err);
@@ -209,14 +214,16 @@
             .then((response) => {
               this.$store.commit('setHuboCambio');
               this.$store.commit('setOrdenesMedicoId', this.ordenesMedico._id);
-              this.$store.commit('setFirmaBase64', '');
+              //this.$store.commit('setFirmaBase64', '');
+              this.firmaBase64 = '';
+              this.$refs.notify.showNotify("firma guardada no debe salir nuca", 2);
             })
             .catch(err => {
               this.$refs.notify.showNotify("ERROR AL GUARDAR " + err, 5);
             });
         }
       }
-      
+
     }
   };
 

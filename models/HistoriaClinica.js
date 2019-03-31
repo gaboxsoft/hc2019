@@ -112,7 +112,10 @@ let historiaClinicaSchema = new Schema({
     },
     fechaBorrado: {
         type: Date
-    },
+  },
+  firmaBase64HC: {
+    type: String
+  },
     usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario'

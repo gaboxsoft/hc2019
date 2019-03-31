@@ -78,6 +78,7 @@ app.post('/Evolucion/:id', [verificaToken, rolD], function (req, res) {
   evolucion.fecha = body.fecha;
   evolucion.descripcion = body.descripcion;
   evolucion.paciente = id;
+  evolucion.firmaBase64 = body.firmaBase64;
 
   // que doctor lo modificó
   evolucion.usuarioSe = req.usuario._id;

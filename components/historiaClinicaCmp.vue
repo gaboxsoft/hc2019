@@ -1,14 +1,15 @@
-
 <template>
   <div>
     <h2 class="text-center text-primary">{{tituloPagina}}</h2>
     <notifyCmp ref="notify" />
-    <b-btn class="button-right bg-success" v-on:click="guardar">GUARDAR</b-btn>
-    <b-btn class="button-right bg-success" v-on:click="imprimir">IMPRIMIR</b-btn>
+    <!--<b-btn class="button-right bg-success" v-on:click="guardar">GUARDAR</b-btn>-->
+    <b-btn class="button-right bg-success" v-show="firmaBase64 != ''" v-on:click="imprimir">IMPRIMIR</b-btn>
+    <firmaCmp id="firma" v-show="estaFirmando" @firmaCapturada="firmaBase64=$event" />
+    <b-btn class="bg-success button-right"  v-on:click="firmar">GUARDAR</b-btn>
+
     <br />
     <br />
     <form action="#">
-
       <table class="table-sm table-hover table-info">
         <tbody>
           <tr>
@@ -40,7 +41,6 @@
               Femenino
             </td>
           </tr>
-
 
           <tr>
             <td class="rounded" style="background-color:#ffd800" v-show="paciente.genero==='M'" colspan="2">
@@ -118,7 +118,6 @@
                 </tbody>
               </table>
             </td>
-
             <td class="rounded" style="background-color:#4800ff" v-show="paciente.genero==='H'" colspan="2">
               <table class="table table-sm table-info">
                 <tbody>
@@ -130,7 +129,6 @@
               </table>
             </td>
           </tr>
-
 
           <tr>
             <td class="text-right">Otros Historia clínica:</td>
@@ -211,11 +209,9 @@
         </tbody>
       </table>
 
-      
-
     </form>
-    <b-btn class="button-right bg-success" v-on:click="guardar">GUARDAR</b-btn>
-    <b-btn class="button-right bg-success" v-on:click="imprimir">IMPRIMIR</b-btn>
+    <!--<b-btn class="button-right bg-success" v-on:click="guardar">GUARDAR</b-btn>
+    <b-btn class="button-right bg-success" v-on:click="imprimir">IMPRIMIR</b-btn>-->
     <br />
     <br />
     <br />
@@ -225,15 +221,20 @@
 <script>
   import axios from 'axios';
   import notifyCmp from '~/components/notifyCmp';
+  import firmaCmp from '~/components/firmaCmp';
 
   export default {
     name: 'historiaClinicaCmp',
     components: {
-      notifyCmp
+      notifyCmp,
+      firmaCmp
     },
     data() {
       return {
         tituloPagina: 'HISTORIA CLÍNICA',
+        estaFirmando: false,
+        estaFirmado:false,
+        firmaBase64: '',
         /////////////////////////
         // Historia Clínica
         /////////////////////////
@@ -280,6 +281,7 @@
           LAB: '',
           USG: '',
           RX: '',
+          firmaBase64HC:''
         }
       }
     },
@@ -305,15 +307,29 @@
       },
       getToken: function () {
         return this.$store.state.token;
-      }
+      },
+      seFirmo: function () {
+        return !(this.firmaBase64 === '');
+      },
+      
     },
+
+    watch: {
+      seFirmo: function () {
+        this.guardar();
+        this.estaFirmando = false;
+      },
+    },
+    ///////
     created() {
       this.getCurrentPaciente(this.getToken);
       //console.log('EN historiaClinica.Created, Paciente= ', this.Paciente);
     },
 
     methods: {
-
+      firmar: function () {
+        this.estaFirmando = true;
+      },
       getCurrentPaciente: function (token) {
 
         axios.get(this.urlGetPaciente, {
@@ -383,6 +399,7 @@
             LAB: this.paciente.LAB,
             USG: this.paciente.USG,
             RX: this.paciente.RX,
+            firmaBase64HC:this.firmaBase64
           }
         };
         axios(req)
@@ -411,6 +428,7 @@
             //console.log('aaquí en imprimir HC axios y regresó: ', response);
             //console.log('aaquí en imprimir HC axios y regresó: ', response.data.pdfFile);
             this.$refs.notify.showNotify("CLICK AQUÍ PARA VER EL FORMATO", 4, response.data.pdfFile, true);
+            document.getElementById('notify').focus();
           },
             (error) => {
               this.err = error.response.data.error;

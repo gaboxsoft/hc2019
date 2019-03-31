@@ -393,6 +393,9 @@ let pacienteSchema = new Schema({
     type: String,
     uppercase: true
   },
+  firmaBase64HC: {
+    type: String
+  },
   /////////////////////////
 
   ////  //////////////////////////

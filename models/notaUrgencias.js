@@ -10,6 +10,9 @@ var notaUrgenciasSchema = new Schema({
     //required: [true, 'La fecha de ingreso es necesaria.'],
     default: () => { new Date().toLocaleString() }
   },
+  firmaBase64: {
+    type: String
+  },
   //lugarNacimiento: {
   //  type: String
   //},

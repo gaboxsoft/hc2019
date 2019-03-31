@@ -1,6 +1,6 @@
 
 <template>
-  <div >
+  <div>
     <!--<h1 class=" text-primary">{{tituloPagina}}</h1>-->
     <notifyCmp ref="notify" />
     <b-btn class="bg-success button-right" v-on:click="agregar">NUEVA NOTA</b-btn>
@@ -15,6 +15,7 @@
                 <td>FECHA</td>
                 <td>DIAGNOSTICO</td>
                 <td>INDICACIONES</td>
+                <td>FIRMA</td>
               </tr>
             </thead>
             <tr :class="{'bg-warning':nu._id===$store.state.notaUrgenciasId}" v-model="notasUrgencias" v-for="nu in notasUrgencias">
@@ -24,8 +25,14 @@
               <td>{{nu.diagnosticoEgreso}}</td>
               <td>{{nu.indicaciones}}</td>
               <td>
-                <b-btn class="btn bg-success btn-xs"  v-on:click="seleccionar(nu._id)">
+                <img v-bind:src="firma(nu.firmaBase64)" width="100" height="20" />
+              </td>
+              <td>
+                <!--<b-btn class="btn bg-success btn-xs" v-on:click="seleccionar(nu._id)">
                   Abrir
+                </b-btn>-->
+                <b-btn class="btn bg-warning btn-xs" v-on:click="imprimir(nu._id)">
+                  Imprimir
                 </b-btn>
                 <!--<b-btn ref="VerPdf" class="btn bg-warning btn-xs"  v-on:click="imprimir(nu._id)">
                   Ver
@@ -38,7 +45,6 @@
     </div>
   </div>
 </template>
-
 <script>
   import axios from 'axios';
   import notifyCmp from '~/components/notifyCmp';
@@ -65,19 +71,19 @@
     computed: {
       urlGetPaciente: function () {
         return process.env.urlServer + '/paciente/' + this.$store.state.pacienteId;
-        //return 'http://localhost:3000/paciente/' + this.$store.state.pacienteId;
+
       },
       urlGetNotaUrgencias: function () {
         return process.env.urlServer + '/NotaUrgencias/' + this.$store.state.pacienteId;
-        //return 'http://localhost:3000/NotaUrgencias/' + this.$store.state.notaUrgenciasId;
+
       },
       urlGetNotasUrgencias: function () {
         return process.env.urlServer + '/NotasUrgencias/' + this.$store.state.pacienteId;
-        //return 'http://localhost:3000/NotasUrgencias/' + this.$store.state.pacienteId;
+
       },
       urlNotaUrgenciasPdf: function () {
         return process.env.urlServer + '/msi12/' + this.$store.state.pacienteId;
-        //return 'http://localhost:3000/msi12/' + this.$store.state.pacienteId;
+
       },
       getSocketNotasUrgencias: function () {
         return this.$store.state.socketNotasUrgencias;
@@ -101,10 +107,17 @@
     },
 
     methods: {
+      firma: function (firmaBase64) {
+        if (firmaBase64) {
+          return "data: image/png;base64," + firmaBase64
+        };
+        return "no-image.jpg"
+      },
+     
       agregar: function () {
-        console.log('aquí en agregar nota urgencias');
+        //console.log('aquí en agregar nota urgencias');
         //this.$store.commit('setPacienteId', pacienteId)
-        
+
         this.$store.commit('setNotaUrgenciasId', 'NUEVO');
         this.$refs.linkToNotaUrgencias.click();
       },
@@ -112,7 +125,7 @@
         if (notaUrgenciasId == '') {
           return;
         }
-        console.log('aquí en seleccionar nota urgencia, id: ', notaUrgenciasId);
+        //console.log('aquí en seleccionar nota urgencia, id: ', notaUrgenciasId);
         //this.$store.commit('setPacienteId', pacienteId)
         this.$store.commit('setNotaUrgenciasId', notaUrgenciasId)
         this.$refs.linkToNotaUrgencias.click();

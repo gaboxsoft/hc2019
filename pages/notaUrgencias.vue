@@ -2,14 +2,21 @@
 <template>
   <div id="notaUrgencias">
     <h3 class="text-center text-primary">{{tituloPagina}}</h3>
+    <!--<table>
+      <tbody>
+        <tr>
+          <td><notasUrgenciasCmp /></td>
+          <td><notaUrgenciasCmp /></td>
+        </tr>
+      </tbody>
+    </table>-->
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-6">
         <notasUrgenciasCmp />
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <notaUrgenciasCmp />
       </div>
-
     </div>
   </div>
 </template>

@@ -91,12 +91,12 @@ const ordenesMedicoPdf = (paciente, ordenesMedicos) => {
 }
 
 function writeOrdenesMedicos(doc, paciente,  ordenesMedicos, pages, anchoHoja, altoHoja, n, imgFormato, rowIni, colIni) {
-  margenInf = 40;
+  margenInf = 100;
   interlineado = 5;
   let i = 1;
   ordenesMedicos.forEach(function (ordenMedico) {
     let text = ordenMedico.ordenes + '\n' + 'Médico: ' + ordenMedico.usuarioSe.nombre + ' cédula: ' + ordenMedico.usuarioSe.cedula;
-    console.log(i,'.- ordenMedio', ordenMedico);
+    //console.log(i,'.- ordenMedio', ordenMedico);
     opcionesParrafo = {
       align: 'justify',
       width: pdfTools.cmToPt(14.8),
@@ -107,10 +107,10 @@ function writeOrdenesMedicos(doc, paciente,  ordenesMedicos, pages, anchoHoja, a
 
     // Verifica si todavia alcanza el espacio restante de la hoja para imprimir
     // si no agrega una página más
-    if (doc.y + altoParrafo + interlineado + margenInf > doc.page.height) {
+    if (doc.y + altoParrafo + interlineado  > doc.page.height-margenInf) {
       let i = 1;
       while (doc.y< doc.page.height-margenInf) {
-        writeLine(doc, '===='.repeat(i++));
+        writeLine(doc, '----------------------------------'.repeat(i++));
       };
 
       console.log(`${n} => agregando pág`);
@@ -130,7 +130,7 @@ function writeOrdenesMedicos(doc, paciente,  ordenesMedicos, pages, anchoHoja, a
     // Escribir encabezados
     if (doc.y == 0) {
       pages[0].forEach(function (field) {
-        console.log('field.name:', field.name);
+        //console.log('field.name:', field.name);
         writeLine(doc, eval(field.name), field.row, field.col, field.align, field.fontSize, field.color, field.width);
       });
     };
@@ -139,7 +139,7 @@ function writeOrdenesMedicos(doc, paciente,  ordenesMedicos, pages, anchoHoja, a
     writeLine(doc, text, row, col + 3.0, 'justify', 8, 'black', 12.8); //14.8-ancho
 
     var dataImgDecodeFromBase64 = new Buffer.from(ordenMedico.firmaBase64, 'base64');
-    doc.image(dataImgDecodeFromBase64, pdfTools.cmToPt(col+15 ), pdfTools.cmToPt(row ), { width: 100 })
+    doc.image(dataImgDecodeFromBase64, pdfTools.cmToPt(col+15 ), pdfTools.cmToPt(row ), { width: 75 })
     
     //writeLine(doc, 'Médico: '+paciente.nombreMT+' cédula: '+ paciente.cedulaMT, doc.y, col + 3.7, 'justify', 8, 'black', 14.8);
       //console.log(`${n}=>2 doc.y=`, doc.y);
