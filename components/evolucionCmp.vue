@@ -103,6 +103,7 @@
       //console.log(' --- EN nota urgencias-> ' + (!(this.firmaBase64 === '') ? 'FIRMADO!' : "NO FIRMADO"));
       //console.log(' ---- EN nota urgencias-> ' + this.firmaBase64);
       this.guardar();
+      
     },
     getEvolucionId: function () {
       console.log('notasUrgenciasCmp->Watch->getNotaUrgenciasId->', this.getEvolucionId)

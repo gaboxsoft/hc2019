@@ -69,12 +69,15 @@ app.post('/Receta/:id', [verificaToken, rolD], function (req, res) {
   receta.fechaReceta = body.fechaReceta;
   receta.prescripcion = body.prescripcion;
   receta.paciente = id;
+  receta.firmaBase64 = body.firmaBase64;
 
   // que doctor lo modificó
   receta.usuarioSe = req.usuario._id;
 
   receta.fechaModificacionSe = new Date();
   receta.fechaCreacionSe = new Date();
+  receta.firmaBase64 = body.firmaBase64;
+
   console.log('receta antes de guardar receta:', receta);
   receta.save((err, recetaBD) => {
     if (err) {

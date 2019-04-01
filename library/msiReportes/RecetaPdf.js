@@ -81,6 +81,11 @@ const recetaPdf = (receta) => {
     });
   }
 
+  if (receta.firmaBase64) {
+    var dataImgDecodeFromBase64 = new Buffer.from(receta.firmaBase64, 'base64');
+    doc.image(dataImgDecodeFromBase64, 400, doc.y-100, { width: 300 })
+  }
+
   ////
   // Stream contents to a file
   const fileName = 'MSI15-' + Date.now() + '.pdf';

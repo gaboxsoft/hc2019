@@ -15,6 +15,7 @@
                 <td>
                   MÉDICO
                 </td>
+                <td>FIRMA</td>
               </tr>
               <tr :class="{'bg-warning':r._id===$store.state.recetaId}"
                   v-model="recetas"
@@ -23,6 +24,9 @@
                 <td>{{momento(r.fechaReceta).format('HH:mm')}}</td>
                 <td>{{r.prescripcion}}</td>
                 <td>--{{r.usuarioSe.nombre}}--</td>
+                <td width="20%">
+                  <img v-bind:src="firma(r.firmaBase64)" width="100" height="20" />
+                </td>
                 <td style="width:25px;">
                   <b-btn btn-xs v-show="r.usuarioSe._id===$store.state.usuarioId"
                          v-on:click="seleccionar(r._id)">
@@ -91,6 +95,12 @@
     },
 
     methods: {
+      firma: function (firmaBase64) {
+        if (firmaBase64) {
+          return "data: image/png;base64," + firmaBase64
+        };
+        return "no-image.jpg"
+      },
       momento: function (date) {
           return moment(date);
       },
