@@ -17,6 +17,7 @@ app.use(require('./notaUrgencias'));
 app.use(require('./evolucion'));
 app.use(require('./receta'));
 app.use(require('./ordenesMedico'));
+app.use(require('./contratoServicios'));
 
 
 

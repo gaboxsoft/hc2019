@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 let Schema = mongoose.Schema;
 
-
+const situacionValida = require('./situacionValida');
 
 // Schema de paciente
 
@@ -27,15 +27,31 @@ let contratoServiciosSchema = new Schema({
 
   nombreRepresentanteLegalMedica: {
     type: String,
-    minlength: 2,
     uppercase: true,
+    default: ''
   },
 
   nombreResponsablePaciente: {
     type: String,
-    minlength: 2,
     uppercase: true,
+    default: ''
   },
+
+  firmaBase64Paciente: {
+    type: String,
+    default: ''
+  },
+  firmaBase64RepresentanteLegal: {
+    type: String,
+    default: ''
+  },
+  firmaBase64ResponsablePaciente: {
+    type: String,
+    default: ''
+  },
+
+
+
 
   // Sello
   fechaCreacionSe: {
@@ -62,7 +78,7 @@ let contratoServiciosSchema = new Schema({
 });
 
 
+  module.exports = mongoose.model('ContratoServicios', contratoServiciosSchema);
 
-module.exports = mongoose.model('ContratoServicios', pacienteSchema);
 
 

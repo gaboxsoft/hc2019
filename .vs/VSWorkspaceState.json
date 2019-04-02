@@ -6,11 +6,11 @@
     "\\components",
     "\\config",
     "\\library",
-    "\\library\\msiReportes",
-    "\\models",
-    "\\pages",
-    "\\public"
+    "\\library\\sesionWEB",
+    "\\msiformatos",
+    "\\routes",
+    "\\server"
   ],
-  "SelectedNode": "\\components\\historiaClinicaCmp.vue",
+  "SelectedNode": "\\sube.bat",
   "PreviewInSolutionExplorer": false
 }

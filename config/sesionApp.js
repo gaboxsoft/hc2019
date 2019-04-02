@@ -27,7 +27,10 @@ process.sesion.CENTRO_MEDICO = {
     especialidad: 'Anestesiología y Algología',
     rfp: '3081665',
     ce: '4860451',
-    institucion: 'Universidad Nacional Autónoma de México'
+    institucion: 'Universidad Nacional Autónoma de México',
+    nombreCompleto: function () {
+      return titulo + ' ' + nombre + ' ' + paterno + ' ' + materno;
+    }
   },
   lugarExpedicion: 'METEPEC, ESTADO DE MÉXICO.'
 };

@@ -96,8 +96,6 @@
 
     },
 
-  
-
   watch: {
     seFirmo: function () {
       //console.log(' --- EN nota urgencias-> ' + (!(this.firmaBase64 === '') ? 'FIRMADO!' : "NO FIRMADO"));
