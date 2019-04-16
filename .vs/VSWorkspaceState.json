@@ -7,9 +7,9 @@
     "\\config",
     "\\library",
     "\\library\\sesionWEB",
+    "\\models",
     "\\msiformatos",
-    "\\routes",
-    "\\server"
+    "\\routes"
   ],
   "SelectedNode": "\\sube.bat",
   "PreviewInSolutionExplorer": false
