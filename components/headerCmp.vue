@@ -22,7 +22,8 @@
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="VALORACIÓN"
                                left>
-            <b-dropdown-item disabled href="#">Consentimiento Informado</b-dropdown-item>
+            <!--<b-dropdown-item disabled href="#">Consentimiento Informado</b-dropdown-item>-->
+            <b-dropdown-item href="/ConsentimientoInformado">Consentimiento Informado</b-dropdown-item>
             <b-dropdown-item href="/hojaInicialExpediente">Hoja Inicial Expediente</b-dropdown-item>
             <b-dropdown-item href="/HistoriaClinica">História Clínica</b-dropdown-item>
             <b-dropdown-item href="/notaUrgencias">Nota de Urgencias</b-dropdown-item>

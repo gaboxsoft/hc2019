@@ -6,11 +6,11 @@
     "\\components",
     "\\config",
     "\\library",
-    "\\library\\sesionWEB",
-    "\\models",
-    "\\msiformatos",
-    "\\routes"
+    "\\library\\msiReportes",
+    "\\pages",
+    "\\public",
+    "\\static"
   ],
-  "SelectedNode": "\\sube.bat",
+  "SelectedNode": "\\components\\firmaCmp.vue",
   "PreviewInSolutionExplorer": false
 }

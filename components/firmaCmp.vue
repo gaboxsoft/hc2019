@@ -16,12 +16,11 @@
           </tr>
         </tbody>
       </table>
-      <br>
-
+      
       <!--<canvas name="SigImg" id="SigImg" width="500" height="100"></canvas>-->
       <!-- v-show="seFirmo" -->
       <div>
-
+        <!--<p>Firmado?{{noFirmado==false}}-- capturandoFirma:{{capturandoFirma}}{{firmaBase64}}</p>-->
         <!--<input id="SignBtn" name="SignBtn" type="button" v-show="!capturandoFirma" value="FIRMAR" onclick="javascript:onSign()" />--> <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
         <button id="btnIniciarFirma" name="SignBtn" v-show="capturandoFirma==false" v-on:click="iniciarFirma()">INICIAR FIRMA</button>
 
@@ -106,6 +105,7 @@
         //console.log('1.- OnSig.... capturandoFirma=', this.capturandoFirma);
         this.capturandoFirma = true;
         document.getElementById('cnv').style = 'background-color:white;'
+        this.firmaBase64 = '';
         onSign();
       },
 
@@ -123,14 +123,20 @@
       },
 
       callbackOnDone: function (imgBase64) {
-        this.capturandoFirma = false;
+        //console.log(' 1x.1 en callbackOnDone');
         //console.log('2.2.- callbackOnDone.... capturandoFirma=', this.capturandoFirma);
         //console.log('2.3.- en callbackOnDone imgBase64=', imgBase64);
         
-        document.getElementById('cnv').style = 'background-color:black;'
-        document.getElementById('btnIniciarFirma').click();
+        document.getElementById('cnv').style = 'background-color: black;'
+        //document.getElementById('btnIniciarFirma').click();
+        this.capturandoFirma = false;
+        
         this.$emit('firmaCapturada', imgBase64);
-        this.firmaBase64 = '';
+        
+
+        //console.log(' 1x.2 TERMINE DE CAPTURAR imgBASE64');
+        //alert('callBackOnDone: '+imgBase64);
+        //alert('1x.3 ALERTA: TERMINE DE CAPTURAR FIRMA...');
       }
     }
   }

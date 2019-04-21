@@ -7,12 +7,17 @@ function controller() {
 
 function onSign() {
   //console.log('2.-OnSig....');
+  //alert('1 getlement');
   var ctx = document.getElementById('cnv').getContext('2d');
   SetDisplayXSize(500);
   SetDisplayYSize(100);
+  //alert('2 setDisplñay');
   SetTabletState(0, tmr);
+  //alert('3 setJustify');
   SetJustifyMode(0);
+  //alert('4 clearTabkle');
   ClearTablet();
+  //alert('5 if tmr');
   if (tmr == null) {
     tmr = SetTabletState(1, ctx, 50);
   }
@@ -24,7 +29,6 @@ function onSign() {
 }
 
 function onClear() {
-  //console.log('2.- OnClear....');
   ClearTablet();
 }
 
